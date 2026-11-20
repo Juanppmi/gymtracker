@@ -1,0 +1,27 @@
+# Segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# Dependências
+node_modules/
+vendor/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Build
+dist/
+build/
+.next/
+out/
+
+# Sistema e editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
