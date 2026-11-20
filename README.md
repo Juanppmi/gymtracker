@@ -1,3 +1,3 @@
 # Gym Tracker
 
-Aplicação para registrar treinos, exercícios e a evolução na academia.
+App to log workouts, exercises, and progress in the gym.
