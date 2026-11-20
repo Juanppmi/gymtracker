@@ -1,60 +1,66 @@
 # AGENTS.md
 
-Leia este arquivo antes de cada tarefa e siga o fluxo abaixo.
+Read this file before every task and follow the flow below.
 
 ## Branches
 
-- `main` só muda depois que o usuário testa. Push e merge em `main` ficam com o usuário.
-- `development` é a branch de entrega. Cada tarefa termina aqui.
-- `tipo/tarefa` é a branch de trabalho, criada a partir de `development` atualizada.
+- `main` changes only after the user tests. Push and merge to `main` stay with the user.
+- `development` is the delivery branch. Every task ends here.
+- `type/task` is the working branch, created from an up-to-date `development`.
 
-Se `development` ainda não existir, crie a partir de `main`.
+If `development` does not exist yet, create it from `main`.
 
-## Fluxo
+## Flow
 
-1. Se a tarefa misturar assuntos ou o tipo não estiver claro, pergunte antes de abrir a issue.
-2. Abra uma issue com `gh issue create`. Título curto, em português. No corpo: contexto, critérios de pronto e como testar.
-3. Atualize `development` e crie o branch `tipo/tarefa-em-kebab-case`.
-4. Faça só o que a issue pede.
-5. Commit único, com o assunto igual ao nome do branch. No corpo, diga o porquê e inclua `Closes #<número>`.
-6. Rode os testes do projeto, quando existirem. Se falharem, não faça o merge.
-7. Faça merge `--no-ff` do branch em `development` e envie só `development` para o remoto.
-8. Diga ao usuário o que testar. Ele testa `development` e, se estiver certo, leva para `main` com merge, sem squash.
+1. If the task mixes topics or the type is unclear, ask before opening the issue.
+2. Open an issue with `gh issue create`. Short title, in English. Body: context, done criteria, and how to test.
+3. Update `development` and create the branch `type/task-in-kebab-case`.
+4. Do only what the issue asks.
+5. One commit. The subject equals the branch name. In the body, say why and include `Closes #<number>`.
+6. Run the project tests when they exist. If they fail, do not merge.
+7. Merge the branch into `development` with `--no-ff` and push only `development`.
+8. Tell the user what to test. The user tests `development` and, if it is right, brings it to `main` with a merge, without squash.
 
-`Closes #<número>` fecha a issue quando o commit chega em `main`. Durante o teste em `development`, a issue continua aberta.
+`Closes #<number>` closes the issue when the commit reaches `main`. The issue stays open while `development` is being tested.
 
-## Nome
+## Name
 
-Minúsculas, hífens, sem acento. O prefixo é um tipo da tabela.
+Lowercase, hyphens, no accents. The prefix is a type from the table.
 
 ```text
-fix/tela-de-listagem-de-exercicios-travada
+fix/exercise-list-screen-stuck
 ```
 
-`issue` não é um tipo. Uma tela travada entra como `fix`. O assunto do commit repete o nome do branch. Não misture tipos no mesmo commit.
+`issue` is not a type. A stuck screen is a `fix`. The commit subject repeats the branch name. Do not mix types in the same commit.
 
-## Tipos
+## Types
 
-| Prefixo | Significado | Quando utilizar |
+| Prefix | Meaning | When to use |
 | --- | --- | --- |
-| feat | Feature | Adicionar uma nova funcionalidade |
-| fix | Fix | Corrigir um bug |
-| chore | Chore | Tarefas de manutenção que não alteram funcionalidades |
-| docs | Documentation | Alterar documentação |
-| style | Style | Formatação, espaços, ponto e vírgula etc. |
-| refactor | Refactoring | Melhorar o código sem alterar seu comportamento |
-| test | Tests | Adicionar ou modificar testes |
-| perf | Performance | Melhorar desempenho |
-| build | Build | Alterações no processo de build ou dependências |
-| ci | Continuous Integration | Alterar pipelines e configurações de CI/CD |
-| revert | Revert | Desfazer um commit anterior |
+| feat | Feature | Add a new feature |
+| fix | Fix | Fix a bug |
+| chore | Chore | Maintenance that does not change features |
+| docs | Documentation | Change documentation |
+| style | Style | Formatting, whitespace, semicolons, and similar |
+| refactor | Refactoring | Improve the code without changing its behavior |
+| test | Tests | Add or change tests |
+| perf | Performance | Improve performance |
+| build | Build | Change the build process or dependencies |
+| ci | Continuous Integration | Change CI/CD pipelines and configuration |
+| revert | Revert | Undo a previous commit |
 
-## Limites
+## Language
 
-- Uma issue, um branch, um commit, um merge em `development`.
-- Não altere `main`.
-- Não use force push, amend ou `--no-verify`.
-- Não faça commit de segredo, `.env` ou credencial.
-- Issues, commits e mensagens ao usuário ficam em português.
-- Não abra pull request, a menos que o usuário peça. A entrega é o merge em `development`.
-- Se o projeto ainda não tiver como rodar teste, registre isso na issue em vez de inventar um resultado.
+- Issues, commits, documentation, code, comments, tests, CI, and messages to the user are in English.
+- Text on screen in the app is Portuguese or English, chosen from the phone OS language.
+- A Portuguese OS locale (`pt`, `pt-BR`, `pt-PT`) uses Portuguese. An English OS locale uses English. Any other OS language uses English.
+- Every user-visible string goes through localization. Do not hardcode one language in the UI.
+
+## Limits
+
+- One issue, one branch, one commit, one merge into `development`.
+- Do not change `main`.
+- Do not use force push, amend, or `--no-verify`.
+- Do not commit a secret, `.env`, or credential.
+- Do not open a pull request unless the user asks. Delivery is the merge into `development`.
+- If the project cannot run tests yet, say that in the issue instead of inventing a result.
