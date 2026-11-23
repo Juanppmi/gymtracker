@@ -1,4 +1,4 @@
-# Segredos
+# Secrets
 .env
 .env.*
 !.env.example
@@ -6,22 +6,44 @@
 *.key
 credentials.json
 
-# Dependências
-node_modules/
-vendor/
-.venv/
-venv/
-__pycache__/
-*.pyc
-
-# Build
-dist/
-build/
-.next/
-out/
-
-# Sistema e editor
+# Miscellaneous
+*.class
+*.swp
 .DS_Store
 Thumbs.db
 *.log
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
 .idea/
+
+# Flutter and Dart
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+coverage/
+
+# Symbolication and obfuscation
+app.*.symbols
+app.*.map.json
+
+# Android build outputs
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Widget preview
+.widget_preview/
