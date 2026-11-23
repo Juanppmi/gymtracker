@@ -1,30 +1,143 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymtracker/l10n/locale_resolution.dart';
+import 'package:gymtracker/main.dart';
+import 'package:gymtracker/ui/design_system/app_button.dart';
+import 'package:gymtracker/ui/design_system/confirm_dialog.dart';
+import 'package:gymtracker/ui/design_system/exercise_row.dart';
+import 'package:gymtracker/ui/design_system/weekday_circle.dart';
 import 'package:material_ui/material_ui.dart';
 
-import 'package:gymtracker/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('Portuguese locales use Portuguese and every other locale uses English', () {
+    expect(
+      resolveAppLocale(const Locale('pt', 'BR'), const [Locale('en'), Locale('pt')]),
+      const Locale('pt'),
+    );
+    expect(
+      resolveAppLocale(const Locale('pt'), const [Locale('en'), Locale('pt')]),
+      const Locale('pt'),
+    );
+    expect(
+      resolveAppLocale(const Locale('pt', 'PT'), const [Locale('en'), Locale('pt')]),
+      const Locale('pt'),
+    );
+    expect(
+      resolveAppLocale(const Locale('en'), const [Locale('en'), Locale('pt')]),
+      const Locale('en'),
+    );
+    expect(
+      resolveAppLocale(const Locale('es'), const [Locale('en'), Locale('pt')]),
+      const Locale('en'),
+    );
+    expect(
+      resolveAppLocale(null, const [Locale('en'), Locale('pt')]),
+      const Locale('en'),
+    );
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('English tabs are Today and Routine', (tester) async {
+    await tester.pumpWidget(const GymTrackerApp(locale: Locale('en')));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(find.text('Today'), findsOneWidget);
+    expect(find.text('Routine'), findsOneWidget);
+    expect(find.byKey(const Key('today-screen')), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Portuguese tabs are Hoje and Ficha', (tester) async {
+    await tester.pumpWidget(const GymTrackerApp(locale: Locale('pt', 'BR')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hoje'), findsOneWidget);
+    expect(find.text('Ficha'), findsOneWidget);
+  });
+
+  testWidgets('a Portuguese phone without a region still shows Portuguese', (tester) async {
+    await tester.pumpWidget(const GymTrackerApp(locale: Locale('pt')));
+
+    expect(find.text('Hoje'), findsOneWidget);
+    expect(find.text('Ficha'), findsOneWidget);
+  });
+
+  testWidgets('the Routine tab shows the routine screen', (tester) async {
+    await tester.pumpWidget(const GymTrackerApp(locale: Locale('en')));
+
+    await tester.tap(find.text('Routine'));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('routine-screen')), findsOneWidget);
+  });
+
+  testWidgets('a weekday circle reports whether it is filled', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: Column(
+            children: [
+              WeekdayCircle(filled: false),
+              WeekdayCircle(filled: true),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final circles = tester.widgetList<WeekdayCircle>(find.byType(WeekdayCircle));
+    expect(circles.map((circle) => circle.filled), [false, true]);
+  });
+
+  testWidgets('an exercise row shows its name and numbers', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: ExerciseRow(
+            name: 'Bench press',
+            muscleGroup: 'Chest',
+            weight: '20 kg',
+            sets: '3',
+            reps: '10',
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Bench press'), findsOneWidget);
+    expect(find.text('Chest'), findsOneWidget);
+    expect(find.text('20 kg · 3 · 10'), findsOneWidget);
+  });
+
+  testWidgets('confirmation returns false until the user confirms', (tester) async {
+    bool? result;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) {
+            return AppButton(
+              label: 'Delete',
+              onPressed: () async {
+                result = await confirmAction(
+                  context,
+                  title: 'Delete routine',
+                  message: 'This cannot be undone.',
+                  confirmLabel: 'Confirm',
+                  cancelLabel: 'Cancel',
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+    expect(result, isFalse);
+
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm'));
+    await tester.pumpAndSettle();
+    expect(result, isTrue);
   });
 }
