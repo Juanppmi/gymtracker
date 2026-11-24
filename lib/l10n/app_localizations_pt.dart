@@ -100,4 +100,28 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get muscleCardio => 'Cardio';
+
+  @override
+  String get monday => 'Segunda';
+
+  @override
+  String get tuesday => 'Terça';
+
+  @override
+  String get wednesday => 'Quarta';
+
+  @override
+  String get thursday => 'Quinta';
+
+  @override
+  String get friday => 'Sexta';
+
+  @override
+  String get saturday => 'Sábado';
+
+  @override
+  String get sunday => 'Domingo';
+
+  @override
+  String get assignRoutine => 'Atribuir ficha';
 }

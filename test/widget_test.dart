@@ -1,4 +1,8 @@
+import 'package:drift/native.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymtracker/data/db/app_database.dart';
+import 'package:gymtracker/data/gym_repository.dart';
 import 'package:gymtracker/l10n/locale_resolution.dart';
 import 'package:gymtracker/main.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
@@ -8,32 +12,50 @@ import 'package:gymtracker/ui/design_system/weekday_circle.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
-  test('Portuguese locales use Portuguese and every other locale uses English', () {
-    expect(
-      resolveAppLocale(const Locale('pt', 'BR'), const [Locale('en'), Locale('pt')]),
-      const Locale('pt'),
-    );
-    expect(
-      resolveAppLocale(const Locale('pt'), const [Locale('en'), Locale('pt')]),
-      const Locale('pt'),
-    );
-    expect(
-      resolveAppLocale(const Locale('pt', 'PT'), const [Locale('en'), Locale('pt')]),
-      const Locale('pt'),
-    );
-    expect(
-      resolveAppLocale(const Locale('en'), const [Locale('en'), Locale('pt')]),
-      const Locale('en'),
-    );
-    expect(
-      resolveAppLocale(const Locale('es'), const [Locale('en'), Locale('pt')]),
-      const Locale('en'),
-    );
-    expect(
-      resolveAppLocale(null, const [Locale('en'), Locale('pt')]),
-      const Locale('en'),
-    );
-  });
+  test(
+    'Portuguese locales use Portuguese and every other locale uses English',
+    () {
+      expect(
+        resolveAppLocale(const Locale('pt', 'BR'), const [
+          Locale('en'),
+          Locale('pt'),
+        ]),
+        const Locale('pt'),
+      );
+      expect(
+        resolveAppLocale(const Locale('pt'), const [
+          Locale('en'),
+          Locale('pt'),
+        ]),
+        const Locale('pt'),
+      );
+      expect(
+        resolveAppLocale(const Locale('pt', 'PT'), const [
+          Locale('en'),
+          Locale('pt'),
+        ]),
+        const Locale('pt'),
+      );
+      expect(
+        resolveAppLocale(const Locale('en'), const [
+          Locale('en'),
+          Locale('pt'),
+        ]),
+        const Locale('en'),
+      );
+      expect(
+        resolveAppLocale(const Locale('es'), const [
+          Locale('en'),
+          Locale('pt'),
+        ]),
+        const Locale('en'),
+      );
+      expect(
+        resolveAppLocale(null, const [Locale('en'), Locale('pt')]),
+        const Locale('en'),
+      );
+    },
+  );
 
   testWidgets('English tabs are Today and Routine', (tester) async {
     await tester.pumpWidget(const GymTrackerApp(locale: Locale('en')));
@@ -51,7 +73,9 @@ void main() {
     expect(find.text('Ficha'), findsOneWidget);
   });
 
-  testWidgets('a Portuguese phone without a region still shows Portuguese', (tester) async {
+  testWidgets('a Portuguese phone without a region still shows Portuguese', (
+    tester,
+  ) async {
     await tester.pumpWidget(const GymTrackerApp(locale: Locale('pt')));
 
     expect(find.text('Hoje'), findsOneWidget);
@@ -59,12 +83,23 @@ void main() {
   });
 
   testWidgets('the Routine tab shows the routine screen', (tester) async {
-    await tester.pumpWidget(const GymTrackerApp(locale: Locale('en')));
+    final database = AppDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          gymRepositoryProvider.overrideWithValue(GymRepository(database)),
+        ],
+        child: const GymTrackerApp(locale: Locale('en')),
+      ),
+    );
 
     await tester.tap(find.text('Routine'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('routine-screen')), findsOneWidget);
+    expect(find.text('Monday'), findsOneWidget);
   });
 
   testWidgets('a weekday circle reports whether it is filled', (tester) async {
@@ -81,7 +116,9 @@ void main() {
       ),
     );
 
-    final circles = tester.widgetList<WeekdayCircle>(find.byType(WeekdayCircle));
+    final circles = tester.widgetList<WeekdayCircle>(
+      find.byType(WeekdayCircle),
+    );
     expect(circles.map((circle) => circle.filled), [false, true]);
   });
 
@@ -105,7 +142,9 @@ void main() {
     expect(find.text('20 kg · 3 · 10'), findsOneWidget);
   });
 
-  testWidgets('confirmation returns false until the user confirms', (tester) async {
+  testWidgets('confirmation returns false until the user confirms', (
+    tester,
+  ) async {
     bool? result;
     await tester.pumpWidget(
       MaterialApp(
