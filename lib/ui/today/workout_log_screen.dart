@@ -51,9 +51,7 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final draft = ref.watch(
-      workoutDraftProvider((widget.weekday, widget.routineId)),
-    );
+    final draft = ref.watch(workoutDraftProvider(widget.routineId));
 
     return Scaffold(
       key: const Key('workout-log-screen'),

@@ -218,56 +218,19 @@ class GymRepository {
     )..where((row) => row.weekStart.equals(weekStart))).get();
   }
 
-  Future<List<WorkoutDraft>> loadWorkoutDraft({
-    required DateTime weekStart,
-    required int weekday,
-    required int routineId,
-  }) async {
-    final session = await _sessionFor(weekStart, weekday, routineId);
-    if (session == null) {
-      final planned = await listRoutineExercises(routineId);
-      return [
-        for (final item in planned)
-          WorkoutDraft(
-            exerciseId: item.exerciseId,
-            nameEn: item.nameEn,
-            namePt: item.namePt,
-            muscleGroup: item.muscleGroup,
-            weight: item.weight,
-            sets: item.sets,
-            reps: item.reps,
-            position: item.position,
-          ),
-      ];
-    }
-
-    final rows =
-        await (_database.select(_database.workoutExercises).join([
-                innerJoin(
-                  _database.exercises,
-                  _database.exercises.id.equalsExp(
-                    _database.workoutExercises.exerciseId,
-                  ),
-                ),
-              ])
-              ..where(_database.workoutExercises.sessionId.equals(session.id))
-              ..orderBy([
-                OrderingTerm(expression: _database.workoutExercises.position),
-                OrderingTerm(expression: _database.workoutExercises.id),
-              ]))
-            .get();
-
+  Future<List<WorkoutDraft>> loadWorkoutDraft(int routineId) async {
+    final planned = await listRoutineExercises(routineId);
     return [
-      for (final row in rows)
+      for (final item in planned)
         WorkoutDraft(
-          exerciseId: row.readTable(_database.exercises).id,
-          nameEn: row.readTable(_database.exercises).nameEn,
-          namePt: row.readTable(_database.exercises).namePt,
-          muscleGroup: row.readTable(_database.exercises).muscleGroup,
-          weight: row.readTable(_database.workoutExercises).weight,
-          sets: row.readTable(_database.workoutExercises).sets,
-          reps: row.readTable(_database.workoutExercises).reps,
-          position: row.readTable(_database.workoutExercises).position,
+          exerciseId: item.exerciseId,
+          nameEn: item.nameEn,
+          namePt: item.namePt,
+          muscleGroup: item.muscleGroup,
+          weight: item.weight,
+          sets: item.sets,
+          reps: item.reps,
+          position: item.position,
         ),
     ];
   }
@@ -314,6 +277,19 @@ class GymRepository {
                 weight: exercise.weight,
                 sets: exercise.sets,
                 reps: exercise.reps,
+              ),
+            );
+        await (_database.update(_database.routineExercises)..where(
+              (row) =>
+                  row.routineId.equals(routineId) &
+                  row.exerciseId.equals(exercise.exerciseId) &
+                  row.position.equals(exercise.position),
+            ))
+            .write(
+              RoutineExercisesCompanion(
+                weight: Value(exercise.weight),
+                sets: Value(exercise.sets),
+                reps: Value(exercise.reps),
               ),
             );
       }
