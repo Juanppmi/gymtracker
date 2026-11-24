@@ -1,5 +1,6 @@
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/routine/routine_screen.dart';
+import 'package:gymtracker/ui/theme/theme_mode_button.dart';
 import 'package:gymtracker/ui/today/today_screen.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -14,6 +15,7 @@ class HomeShell extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.appTitle),
+          actions: const [ThemeModeButton()],
           bottom: TabBar(
             tabs: [
               Tab(text: l10n.today),
@@ -21,9 +23,7 @@ class HomeShell extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [TodayScreen(), RoutineScreen()],
-        ),
+        body: const TabBarView(children: [TodayScreen(), RoutineScreen()]),
       ),
     );
   }

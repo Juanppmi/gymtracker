@@ -151,4 +151,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noRoutinesThisDay => 'Nenhuma ficha neste dia';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get themeSystem => 'Sistema';
+
+  @override
+  String get themeLight => 'Claro';
+
+  @override
+  String get themeDark => 'Escuro';
 }

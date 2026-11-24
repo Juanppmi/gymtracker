@@ -53,5 +53,9 @@
   "saturdayShort": "Sáb",
   "sundayShort": "Dom",
   "finish": "Concluir",
-  "noRoutinesThisDay": "Nenhuma ficha neste dia"
+  "noRoutinesThisDay": "Nenhuma ficha neste dia",
+  "theme": "Tema",
+  "themeSystem": "Sistema",
+  "themeLight": "Claro",
+  "themeDark": "Escuro"
 }

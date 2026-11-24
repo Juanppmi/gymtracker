@@ -151,4 +151,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRoutinesThisDay => 'No routines this day';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
 }

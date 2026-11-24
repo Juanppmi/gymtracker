@@ -53,5 +53,9 @@
   "saturdayShort": "Sat",
   "sundayShort": "Sun",
   "finish": "Finish",
-  "noRoutinesThisDay": "No routines this day"
+  "noRoutinesThisDay": "No routines this day",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark"
 }
