@@ -4,5 +4,22 @@
   "today": "Hoje",
   "routine": "Ficha",
   "cancel": "Cancelar",
-  "confirm": "Confirmar"
+  "confirm": "Confirmar",
+  "routineList": "Fichas",
+  "addRoutine": "Adicionar ficha",
+  "update": "Atualizar",
+  "delete": "Excluir",
+  "deleteRoutineTitle": "Excluir ficha",
+  "deleteRoutineMessage": "Excluir {name}?",
+  "@deleteRoutineMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "routineName": "Nome",
+  "newRoutineTitle": "Nova ficha",
+  "renameRoutineTitle": "Renomear ficha",
+  "noRoutines": "Nenhuma ficha ainda"
 }

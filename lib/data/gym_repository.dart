@@ -38,4 +38,30 @@ class GymRepository {
           ..orderBy([(exercise) => OrderingTerm(expression: exercise.id)]))
         .get();
   }
+
+  Future<List<Routine>> listRoutines() {
+    return (_database.select(_database.routines)..orderBy([
+          (routine) => OrderingTerm(expression: routine.name),
+          (routine) => OrderingTerm(expression: routine.id),
+        ]))
+        .get();
+  }
+
+  Future<void> createRoutine(String name) {
+    return _database
+        .into(_database.routines)
+        .insert(RoutinesCompanion.insert(name: name));
+  }
+
+  Future<void> renameRoutine(int id, String name) {
+    return (_database.update(_database.routines)
+          ..where((routine) => routine.id.equals(id)))
+        .write(RoutinesCompanion(name: Value(name)));
+  }
+
+  Future<void> deleteRoutine(int id) {
+    return (_database.delete(
+      _database.routines,
+    )..where((routine) => routine.id.equals(id))).go();
+  }
 }

@@ -127,6 +127,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get confirm;
+
+  /// No description provided for @routineList.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines'**
+  String get routineList;
+
+  /// No description provided for @addRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Add routine'**
+  String get addRoutine;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @deleteRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete routine'**
+  String get deleteRoutineTitle;
+
+  /// No description provided for @deleteRoutineMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String deleteRoutineMessage(String name);
+
+  /// No description provided for @routineName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get routineName;
+
+  /// No description provided for @newRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New routine'**
+  String get newRoutineTitle;
+
+  /// No description provided for @renameRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename routine'**
+  String get renameRoutineTitle;
+
+  /// No description provided for @noRoutines.
+  ///
+  /// In en, this message translates to:
+  /// **'No routines yet'**
+  String get noRoutines;
 }
 
 class _AppLocalizationsDelegate

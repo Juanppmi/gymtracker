@@ -23,4 +23,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirm => 'Confirm';
+
+  @override
+  String get routineList => 'Routines';
+
+  @override
+  String get addRoutine => 'Add routine';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteRoutineTitle => 'Delete routine';
+
+  @override
+  String deleteRoutineMessage(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get routineName => 'Name';
+
+  @override
+  String get newRoutineTitle => 'New routine';
+
+  @override
+  String get renameRoutineTitle => 'Rename routine';
+
+  @override
+  String get noRoutines => 'No routines yet';
 }
