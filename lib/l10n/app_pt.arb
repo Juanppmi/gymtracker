@@ -44,5 +44,14 @@
   "friday": "Sexta",
   "saturday": "Sábado",
   "sunday": "Domingo",
-  "assignRoutine": "Atribuir ficha"
+  "assignRoutine": "Atribuir ficha",
+  "mondayShort": "Seg",
+  "tuesdayShort": "Ter",
+  "wednesdayShort": "Qua",
+  "thursdayShort": "Qui",
+  "fridayShort": "Sex",
+  "saturdayShort": "Sáb",
+  "sundayShort": "Dom",
+  "finish": "Concluir",
+  "noRoutinesThisDay": "Nenhuma ficha neste dia"
 }

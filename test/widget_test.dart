@@ -58,7 +58,7 @@ void main() {
   );
 
   testWidgets('English tabs are Today and Routine', (tester) async {
-    await tester.pumpWidget(const GymTrackerApp(locale: Locale('en')));
+    await pumpGymApp(tester, const Locale('en'));
 
     expect(find.text('Today'), findsOneWidget);
     expect(find.text('Routine'), findsOneWidget);
@@ -66,7 +66,7 @@ void main() {
   });
 
   testWidgets('Portuguese tabs are Hoje and Ficha', (tester) async {
-    await tester.pumpWidget(const GymTrackerApp(locale: Locale('pt', 'BR')));
+    await pumpGymApp(tester, const Locale('pt', 'BR'));
     await tester.pumpAndSettle();
 
     expect(find.text('Hoje'), findsOneWidget);
@@ -76,7 +76,7 @@ void main() {
   testWidgets('a Portuguese phone without a region still shows Portuguese', (
     tester,
   ) async {
-    await tester.pumpWidget(const GymTrackerApp(locale: Locale('pt')));
+    await pumpGymApp(tester, const Locale('pt'));
 
     expect(find.text('Hoje'), findsOneWidget);
     expect(find.text('Ficha'), findsOneWidget);
@@ -179,4 +179,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(result, isTrue);
   });
+}
+
+Future<void> pumpGymApp(WidgetTester tester, Locale locale) async {
+  final database = AppDatabase(NativeDatabase.memory());
+  addTearDown(database.close);
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        gymRepositoryProvider.overrideWithValue(GymRepository(database)),
+      ],
+      child: GymTrackerApp(locale: locale),
+    ),
+  );
 }

@@ -12,3 +12,16 @@ String weekdayLabel(AppLocalizations l10n, int weekday) {
     _ => '$weekday',
   };
 }
+
+String weekdayShortLabel(AppLocalizations l10n, int weekday) {
+  return switch (weekday) {
+    DateTime.monday => l10n.mondayShort,
+    DateTime.tuesday => l10n.tuesdayShort,
+    DateTime.wednesday => l10n.wednesdayShort,
+    DateTime.thursday => l10n.thursdayShort,
+    DateTime.friday => l10n.fridayShort,
+    DateTime.saturday => l10n.saturdayShort,
+    DateTime.sunday => l10n.sundayShort,
+    _ => '$weekday',
+  };
+}

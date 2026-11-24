@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymtracker/data/db/app_database.dart';
 import 'package:gymtracker/data/routine_exercise_item.dart';
 import 'package:gymtracker/data/weekday_assignment_item.dart';
+import 'package:gymtracker/data/workout_draft.dart';
 
 final gymRepositoryProvider = Provider<GymRepository>((ref) {
   final database = AppDatabase();
@@ -209,5 +210,127 @@ class GymRepository {
             .write(RoutineExercisesCompanion(position: Value(index)));
       }
     });
+  }
+
+  Future<List<WorkoutSession>> sessionsForWeek(DateTime weekStart) {
+    return (_database.select(
+      _database.workoutSessions,
+    )..where((row) => row.weekStart.equals(weekStart))).get();
+  }
+
+  Future<List<WorkoutDraft>> loadWorkoutDraft({
+    required DateTime weekStart,
+    required int weekday,
+    required int routineId,
+  }) async {
+    final session = await _sessionFor(weekStart, weekday, routineId);
+    if (session == null) {
+      final planned = await listRoutineExercises(routineId);
+      return [
+        for (final item in planned)
+          WorkoutDraft(
+            exerciseId: item.exerciseId,
+            nameEn: item.nameEn,
+            namePt: item.namePt,
+            muscleGroup: item.muscleGroup,
+            weight: item.weight,
+            sets: item.sets,
+            reps: item.reps,
+            position: item.position,
+          ),
+      ];
+    }
+
+    final rows =
+        await (_database.select(_database.workoutExercises).join([
+                innerJoin(
+                  _database.exercises,
+                  _database.exercises.id.equalsExp(
+                    _database.workoutExercises.exerciseId,
+                  ),
+                ),
+              ])
+              ..where(_database.workoutExercises.sessionId.equals(session.id))
+              ..orderBy([
+                OrderingTerm(expression: _database.workoutExercises.position),
+                OrderingTerm(expression: _database.workoutExercises.id),
+              ]))
+            .get();
+
+    return [
+      for (final row in rows)
+        WorkoutDraft(
+          exerciseId: row.readTable(_database.exercises).id,
+          nameEn: row.readTable(_database.exercises).nameEn,
+          namePt: row.readTable(_database.exercises).namePt,
+          muscleGroup: row.readTable(_database.exercises).muscleGroup,
+          weight: row.readTable(_database.workoutExercises).weight,
+          sets: row.readTable(_database.workoutExercises).sets,
+          reps: row.readTable(_database.workoutExercises).reps,
+          position: row.readTable(_database.workoutExercises).position,
+        ),
+    ];
+  }
+
+  Future<void> saveWorkout({
+    required DateTime weekStart,
+    required int weekday,
+    required int routineId,
+    required DateTime performedOn,
+    required List<PerformedExercise> exercises,
+  }) {
+    return _database.transaction(() async {
+      final existing = await _sessionFor(weekStart, weekday, routineId);
+      final int sessionId;
+      if (existing == null) {
+        sessionId = await _database
+            .into(_database.workoutSessions)
+            .insert(
+              WorkoutSessionsCompanion.insert(
+                weekStart: weekStart,
+                weekday: weekday,
+                routineId: routineId,
+                performedOn: performedOn,
+              ),
+            );
+      } else {
+        sessionId = existing.id;
+        await (_database.update(_database.workoutSessions)
+              ..where((row) => row.id.equals(sessionId)))
+            .write(WorkoutSessionsCompanion(performedOn: Value(performedOn)));
+        await (_database.delete(
+          _database.workoutExercises,
+        )..where((row) => row.sessionId.equals(sessionId))).go();
+      }
+
+      for (final exercise in exercises) {
+        await _database
+            .into(_database.workoutExercises)
+            .insert(
+              WorkoutExercisesCompanion.insert(
+                sessionId: sessionId,
+                exerciseId: exercise.exerciseId,
+                position: exercise.position,
+                weight: exercise.weight,
+                sets: exercise.sets,
+                reps: exercise.reps,
+              ),
+            );
+      }
+    });
+  }
+
+  Future<WorkoutSession?> _sessionFor(
+    DateTime weekStart,
+    int weekday,
+    int routineId,
+  ) {
+    return (_database.select(_database.workoutSessions)..where(
+          (row) =>
+              row.weekStart.equals(weekStart) &
+              row.weekday.equals(weekday) &
+              row.routineId.equals(routineId),
+        ))
+        .getSingleOrNull();
   }
 }
