@@ -187,6 +187,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No routines yet'**
   String get noRoutines;
+
+  /// No description provided for @addExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Add exercise'**
+  String get addExercise;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get weight;
+
+  /// No description provided for @sets.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get sets;
+
+  /// No description provided for @reps.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps'**
+  String get reps;
+
+  /// No description provided for @allMuscleGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allMuscleGroups;
+
+  /// No description provided for @muscleChest.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get muscleChest;
+
+  /// No description provided for @muscleBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get muscleBack;
+
+  /// No description provided for @muscleShoulders.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get muscleShoulders;
+
+  /// No description provided for @muscleBiceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Biceps'**
+  String get muscleBiceps;
+
+  /// No description provided for @muscleTriceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Triceps'**
+  String get muscleTriceps;
+
+  /// No description provided for @muscleLegs.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs'**
+  String get muscleLegs;
+
+  /// No description provided for @muscleGlutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Glutes'**
+  String get muscleGlutes;
+
+  /// No description provided for @muscleAbs.
+  ///
+  /// In en, this message translates to:
+  /// **'Abs'**
+  String get muscleAbs;
+
+  /// No description provided for @muscleCardio.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardio'**
+  String get muscleCardio;
 }
 
 class _AppLocalizationsDelegate

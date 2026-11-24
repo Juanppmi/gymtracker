@@ -4,6 +4,7 @@ import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
 import 'package:gymtracker/ui/design_system/app_text_field.dart';
 import 'package:gymtracker/ui/design_system/confirm_dialog.dart';
+import 'package:gymtracker/ui/routine/routine_editor_screen.dart';
 import 'package:gymtracker/ui/routine/routine_list_notifier.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -33,8 +34,7 @@ class RoutineListScreen extends ConsumerWidget {
               if (items.isEmpty)
                 Text(l10n.noRoutines)
               else
-                for (final routine in items)
-                  _RoutineTile(routine: routine),
+                for (final routine in items) _RoutineTile(routine: routine),
             ],
           );
         },
@@ -63,6 +63,16 @@ class _RoutineTile extends ConsumerWidget {
     return ListTile(
       key: Key('routine-${routine.id}'),
       title: Text(routine.name),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) => RoutineEditorScreen(
+              routineId: routine.id,
+              routineName: routine.name,
+            ),
+          ),
+        );
+      },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
