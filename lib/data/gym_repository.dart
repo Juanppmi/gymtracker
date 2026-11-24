@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymtracker/data/db/app_database.dart';
 import 'package:gymtracker/data/routine_exercise_item.dart';
+import 'package:gymtracker/data/weekday_assignment_item.dart';
 
 final gymRepositoryProvider = Provider<GymRepository>((ref) {
   final database = AppDatabase();
@@ -142,6 +143,58 @@ class GymRepository {
   Future<void> removeRoutineExercise(int id) {
     return (_database.delete(
       _database.routineExercises,
+    )..where((row) => row.id.equals(id))).go();
+  }
+
+  Future<List<WeekdayAssignmentItem>> listWeekdayAssignments() async {
+    final rows =
+        await (_database.select(_database.weekdayAssignments).join([
+              innerJoin(
+                _database.routines,
+                _database.routines.id.equalsExp(
+                  _database.weekdayAssignments.routineId,
+                ),
+              ),
+            ])..orderBy([
+              OrderingTerm(expression: _database.weekdayAssignments.weekday),
+              OrderingTerm(expression: _database.weekdayAssignments.id),
+            ]))
+            .get();
+
+    return [
+      for (final row in rows)
+        WeekdayAssignmentItem(
+          id: row.readTable(_database.weekdayAssignments).id,
+          weekday: row.readTable(_database.weekdayAssignments).weekday,
+          routineId: row.readTable(_database.routines).id,
+          routineName: row.readTable(_database.routines).name,
+        ),
+    ];
+  }
+
+  Future<void> assignRoutineToWeekday(int weekday, int routineId) async {
+    final existing =
+        await (_database.select(_database.weekdayAssignments)..where(
+              (row) =>
+                  row.weekday.equals(weekday) & row.routineId.equals(routineId),
+            ))
+            .get();
+    if (existing.isNotEmpty) {
+      return;
+    }
+    await _database
+        .into(_database.weekdayAssignments)
+        .insert(
+          WeekdayAssignmentsCompanion.insert(
+            weekday: weekday,
+            routineId: routineId,
+          ),
+        );
+  }
+
+  Future<void> removeWeekdayAssignment(int id) {
+    return (_database.delete(
+      _database.weekdayAssignments,
     )..where((row) => row.id.equals(id))).go();
   }
 
