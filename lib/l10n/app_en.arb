@@ -44,5 +44,14 @@
   "friday": "Friday",
   "saturday": "Saturday",
   "sunday": "Sunday",
-  "assignRoutine": "Assign routine"
+  "assignRoutine": "Assign routine",
+  "mondayShort": "Mon",
+  "tuesdayShort": "Tue",
+  "wednesdayShort": "Wed",
+  "thursdayShort": "Thu",
+  "fridayShort": "Fri",
+  "saturdayShort": "Sat",
+  "sundayShort": "Sun",
+  "finish": "Finish",
+  "noRoutinesThisDay": "No routines this day"
 }
