@@ -21,5 +21,20 @@
   "routineName": "Name",
   "newRoutineTitle": "New routine",
   "renameRoutineTitle": "Rename routine",
-  "noRoutines": "No routines yet"
+  "noRoutines": "No routines yet",
+  "addExercise": "Add exercise",
+  "remove": "Remove",
+  "weight": "Weight (kg)",
+  "sets": "Sets",
+  "reps": "Reps",
+  "allMuscleGroups": "All",
+  "muscleChest": "Chest",
+  "muscleBack": "Back",
+  "muscleShoulders": "Shoulders",
+  "muscleBiceps": "Biceps",
+  "muscleTriceps": "Triceps",
+  "muscleLegs": "Legs",
+  "muscleGlutes": "Glutes",
+  "muscleAbs": "Abs",
+  "muscleCardio": "Cardio"
 }

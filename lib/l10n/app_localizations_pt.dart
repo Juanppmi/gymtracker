@@ -55,4 +55,49 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noRoutines => 'Nenhuma ficha ainda';
+
+  @override
+  String get addExercise => 'Adicionar exercício';
+
+  @override
+  String get remove => 'Remover';
+
+  @override
+  String get weight => 'Peso (kg)';
+
+  @override
+  String get sets => 'Séries';
+
+  @override
+  String get reps => 'Repetições';
+
+  @override
+  String get allMuscleGroups => 'Todos';
+
+  @override
+  String get muscleChest => 'Peito';
+
+  @override
+  String get muscleBack => 'Costas';
+
+  @override
+  String get muscleShoulders => 'Ombros';
+
+  @override
+  String get muscleBiceps => 'Bíceps';
+
+  @override
+  String get muscleTriceps => 'Tríceps';
+
+  @override
+  String get muscleLegs => 'Pernas';
+
+  @override
+  String get muscleGlutes => 'Glúteos';
+
+  @override
+  String get muscleAbs => 'Abdômen';
+
+  @override
+  String get muscleCardio => 'Cardio';
 }

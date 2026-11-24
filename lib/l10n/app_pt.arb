@@ -21,5 +21,20 @@
   "routineName": "Nome",
   "newRoutineTitle": "Nova ficha",
   "renameRoutineTitle": "Renomear ficha",
-  "noRoutines": "Nenhuma ficha ainda"
+  "noRoutines": "Nenhuma ficha ainda",
+  "addExercise": "Adicionar exercício",
+  "remove": "Remover",
+  "weight": "Peso (kg)",
+  "sets": "Séries",
+  "reps": "Repetições",
+  "allMuscleGroups": "Todos",
+  "muscleChest": "Peito",
+  "muscleBack": "Costas",
+  "muscleShoulders": "Ombros",
+  "muscleBiceps": "Bíceps",
+  "muscleTriceps": "Tríceps",
+  "muscleLegs": "Pernas",
+  "muscleGlutes": "Glúteos",
+  "muscleAbs": "Abdômen",
+  "muscleCardio": "Cardio"
 }

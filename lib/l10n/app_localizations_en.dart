@@ -55,4 +55,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRoutines => 'No routines yet';
+
+  @override
+  String get addExercise => 'Add exercise';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get weight => 'Weight (kg)';
+
+  @override
+  String get sets => 'Sets';
+
+  @override
+  String get reps => 'Reps';
+
+  @override
+  String get allMuscleGroups => 'All';
+
+  @override
+  String get muscleChest => 'Chest';
+
+  @override
+  String get muscleBack => 'Back';
+
+  @override
+  String get muscleShoulders => 'Shoulders';
+
+  @override
+  String get muscleBiceps => 'Biceps';
+
+  @override
+  String get muscleTriceps => 'Triceps';
+
+  @override
+  String get muscleLegs => 'Legs';
+
+  @override
+  String get muscleGlutes => 'Glutes';
+
+  @override
+  String get muscleAbs => 'Abs';
+
+  @override
+  String get muscleCardio => 'Cardio';
 }
