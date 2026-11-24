@@ -4,5 +4,22 @@
   "today": "Today",
   "routine": "Routine",
   "cancel": "Cancel",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "routineList": "Routines",
+  "addRoutine": "Add routine",
+  "update": "Update",
+  "delete": "Delete",
+  "deleteRoutineTitle": "Delete routine",
+  "deleteRoutineMessage": "Delete {name}?",
+  "@deleteRoutineMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "routineName": "Name",
+  "newRoutineTitle": "New routine",
+  "renameRoutineTitle": "Rename routine",
+  "noRoutines": "No routines yet"
 }
