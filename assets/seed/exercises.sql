@@ -1,0 +1,18 @@
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (1, 'Bench press', 'Supino reto', 'chest');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (2, 'Incline dumbbell press', 'Supino inclinado com halteres', 'chest');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (3, 'Lat pulldown', 'Puxada frontal', 'back');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (4, 'Seated row', 'Remada sentada', 'back');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (5, 'Shoulder press', 'Desenvolvimento', 'shoulders');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (6, 'Lateral raise', 'Elevação lateral', 'shoulders');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (7, 'Barbell curl', 'Rosca direta', 'biceps');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (8, 'Hammer curl', 'Rosca martelo', 'biceps');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (9, 'Triceps pushdown', 'Tríceps pulley', 'triceps');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (10, 'Overhead triceps extension', 'Tríceps testa', 'triceps');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (11, 'Squat', 'Agachamento', 'legs');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (12, 'Leg press', 'Leg press', 'legs');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (13, 'Hip thrust', 'Elevação pélvica', 'glutes');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (14, 'Glute bridge', 'Ponte de glúteos', 'glutes');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (15, 'Plank', 'Prancha', 'abs');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (16, 'Cable crunch', 'Abdominal na polia', 'abs');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (17, 'Running', 'Corrida', 'cardio');
+INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (18, 'Cycling', 'Ciclismo', 'cardio');
