@@ -95,14 +95,20 @@ void main() {
 
     final sessions = await repository.sessionsForWeek(weekStart);
     expect(sessions, hasLength(1));
-    final saved = await repository.loadWorkoutDraft(
-      weekStart: weekStart,
-      weekday: DateTime.tuesday,
-      routineId: 1,
-    );
+    final saved = await repository.loadWorkoutDraft(1);
     expect(saved.single.weight, 25);
     expect(saved.single.sets, 4);
     expect(saved.single.reps, 8);
+    final planned = await repository.listRoutineExercises(1);
+    expect(planned.single.weight, 25);
+    expect(planned.single.sets, 4);
+    expect(planned.single.reps, 8);
+
+    await repository.updateRoutineExercise(id: 1, weight: 40, sets: 5, reps: 6);
+    final shared = await repository.loadWorkoutDraft(1);
+    expect(shared.single.weight, 40);
+    expect(shared.single.sets, 5);
+    expect(shared.single.reps, 6);
   });
 
   testWidgets('Today logs the performed workout and switches days', (
@@ -120,6 +126,7 @@ void main() {
       await repository.addExerciseToRoutine(1, 1);
       await repository.assignRoutineToWeekday(DateTime.tuesday, 1);
       await repository.assignRoutineToWeekday(DateTime.wednesday, 2);
+      await repository.assignRoutineToWeekday(DateTime.thursday, 1);
     });
 
     await tester.pumpWidget(
@@ -157,6 +164,16 @@ void main() {
     expect(_circle(tester, DateTime.tuesday).filled, isTrue);
     expect(_circle(tester, DateTime.wednesday).filled, isFalse);
 
+    await tester.tap(find.byKey(Key('day-${DateTime.thursday}')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Push day'));
+    await tester.pumpAndSettle();
+    expect(await _fieldText(tester, 'log-weight-0'), '20');
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(Key('day-${DateTime.tuesday}')));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Push day'));
     await tester.pumpAndSettle();
     expect(await _fieldText(tester, 'log-weight-0'), '20');
@@ -164,13 +181,22 @@ void main() {
     await tester.tap(find.text('Finish'));
     await tester.pumpAndSettle();
 
-    final saved = await repository.loadWorkoutDraft(
-      weekStart: weekStartOf(today),
-      weekday: DateTime.tuesday,
-      routineId: 1,
-    );
+    final saved = await repository.loadWorkoutDraft(1);
     expect(saved.single.weight, 25);
     expect(await repository.sessionsForWeek(weekStartOf(today)), hasLength(1));
+
+    await tester.tap(find.text('Routine'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Routines'));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const Key('routine-list-screen')),
+        matching: find.text('Push day'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(await _fieldText(tester, 'weight-1'), '25');
   });
 }
 
