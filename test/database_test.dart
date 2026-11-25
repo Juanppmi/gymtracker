@@ -16,7 +16,7 @@ void main() {
     await repository.ensureSeeded();
     final second = await repository.listExercises();
 
-    expect(first, hasLength(18));
+    expect(first, hasLength(114));
     expect(second.map((exercise) => exercise.id), first.map((exercise) => exercise.id));
     expect(first.map((exercise) => exercise.muscleGroup).toSet(), muscleGroups.toSet());
     expect(
@@ -26,6 +26,28 @@ void main() {
           .having((exercise) => exercise.namePt, 'namePt', 'Supino reto')
           .having((exercise) => exercise.muscleGroup, 'muscleGroup', 'chest'),
     );
+
+    await database.close();
+  });
+
+  test('new exercises are added without replacing stored ones', () async {
+    final database = AppDatabase(NativeDatabase.memory());
+    final repository = GymRepository(database);
+    await database.customStatement(
+      "INSERT INTO exercises (id, name_en, name_pt, muscle_group) VALUES (1, 'Bench press', 'Supino reto', 'chest')",
+    );
+
+    await repository.ensureSeeded();
+    await repository.ensureSeeded();
+    final exercises = await repository.listExercises();
+
+    expect(exercises, hasLength(114));
+    expect(exercises.where((exercise) => exercise.id == 1), hasLength(1));
+    expect(
+      exercises.firstWhere((exercise) => exercise.id == 1).nameEn,
+      'Bench press',
+    );
+    expect(exercises.map((exercise) => exercise.id).toSet(), hasLength(114));
 
     await database.close();
   });
