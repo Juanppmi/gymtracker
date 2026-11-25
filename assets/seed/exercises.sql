@@ -112,3 +112,15 @@ INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (111
 INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (112, 'Walking', 'Caminhada', 'cardio');
 INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (113, 'High knees', 'Joelho alto', 'cardio');
 INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (114, 'Box jump', 'Salto na caixa', 'cardio');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (115, 'Dumbbell preacher curl', 'Rosca Scott com halteres', 'biceps');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (116, 'Machine overhand overhead press', 'Desenvolvimento pronado na máquina', 'shoulders');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (117, 'Machine plate-loaded front military press', 'Desenvolvimento militar frontal na máquina', 'shoulders');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (118, 'Machine standing lateral raise', 'Elevação lateral em pé na máquina', 'shoulders');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (119, 'Machine pec fly', 'Voador peitoral', 'chest');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (120, 'Machine bent-arm pec fly', 'Voador peitoral com cotovelos flexionados', 'chest');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (121, 'Machine plate-loaded decline chest press', 'Supino declinado na máquina', 'chest');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (122, 'Forearm plank', 'Prancha no antebraço', 'abs');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (123, 'Machine horizontal leg press', 'Leg press horizontal', 'legs');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (124, 'Machine squat press', 'Agachamento prensa', 'legs');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (125, 'Machine 45 degree calf raise', 'Panturrilha 45 graus', 'legs');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (126, 'Dumbbell lateral raise', 'Elevação lateral com halteres', 'shoulders');
