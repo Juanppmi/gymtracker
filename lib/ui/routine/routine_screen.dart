@@ -5,6 +5,7 @@ import 'package:gymtracker/data/weekday.dart';
 import 'package:gymtracker/data/weekday_assignment_item.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:gymtracker/ui/routine/routine_list_screen.dart';
 import 'package:gymtracker/ui/routine/weekday_assignment_notifier.dart';
 import 'package:gymtracker/ui/routine/weekday_label.dart';
@@ -71,15 +72,25 @@ class _WeekdaySection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          weekdayLabel(l10n, weekday),
-          style: Theme.of(context).textTheme.titleMedium,
+        Align(
+          alignment: Alignment.centerLeft,
+          child: WhiteOutline(
+            child: Text(
+              weekdayLabel(l10n, weekday),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
         ),
         for (final assignment in assignments)
           ListTile(
             key: Key('assignment-${assignment.id}'),
             contentPadding: EdgeInsets.zero,
-            title: Text(assignment.routineName),
+            title: WhiteOutline(
+              child: Text(
+                assignment.routineName,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
             trailing: TextButton(
               key: Key('remove-assignment-${assignment.id}'),
               onPressed: () {
@@ -125,7 +136,15 @@ Future<int?> _pickRoutine(BuildContext context, List<Routine> routines) {
     context: context,
     builder: (context) {
       return SimpleDialog(
-        title: Text(l10n.assignRoutine),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: WhiteOutline(
+            child: Text(
+              l10n.assignRoutine,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ),
         children: [
           if (routines.isEmpty)
             Padding(

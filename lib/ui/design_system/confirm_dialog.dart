@@ -1,3 +1,4 @@
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<bool> confirmAction(
@@ -11,7 +12,10 @@ Future<bool> confirmAction(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text(title),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: WhiteOutline(child: Text(title)),
+        ),
         content: Text(message),
         actions: [
           TextButton(

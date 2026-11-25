@@ -31,7 +31,7 @@ ThemeData buildAppTheme(Brightness brightness) {
     tabBarTheme: const TabBarThemeData(
       labelColor: appPurple,
       unselectedLabelColor: appPurple,
-      indicatorColor: appPurple,
+      indicatorColor: appWhite,
     ),
     popupMenuTheme: const PopupMenuThemeData(
       color: appBlack,

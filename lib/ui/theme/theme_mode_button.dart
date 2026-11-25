@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:gymtracker/ui/theme/theme_mode_controller.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -24,17 +25,17 @@ class ThemeModeButton extends ConsumerWidget {
         PopupMenuItem(
           key: const Key('theme-system'),
           value: ThemeMode.system,
-          child: Text(l10n.themeSystem),
+          child: WhiteOutline(child: Text(l10n.themeSystem)),
         ),
         PopupMenuItem(
           key: const Key('theme-light'),
           value: ThemeMode.light,
-          child: Text(l10n.themeLight),
+          child: WhiteOutline(child: Text(l10n.themeLight)),
         ),
         PopupMenuItem(
           key: const Key('theme-dark'),
           value: ThemeMode.dark,
-          child: Text(l10n.themeDark),
+          child: WhiteOutline(child: Text(l10n.themeDark)),
         ),
       ],
     );

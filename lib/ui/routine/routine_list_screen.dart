@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymtracker/data/db/app_database.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:gymtracker/ui/design_system/app_text_field.dart';
 import 'package:gymtracker/ui/design_system/confirm_dialog.dart';
 import 'package:gymtracker/ui/routine/routine_editor_screen.dart';
@@ -62,7 +63,12 @@ class _RoutineTile extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     return ListTile(
       key: Key('routine-${routine.id}'),
-      title: Text(routine.name),
+      title: WhiteOutline(
+        child: Text(
+          routine.name,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ),
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute<void>(
@@ -154,7 +160,15 @@ class _NameDialogState extends State<_NameDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(widget.title),
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: WhiteOutline(
+          child: Text(
+            widget.title,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
       content: AppTextField(label: l10n.routineName, controller: _controller),
       actions: [
         TextButton(
