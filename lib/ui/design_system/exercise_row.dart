@@ -1,3 +1,4 @@
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ExerciseRow extends StatelessWidget {
@@ -21,7 +22,9 @@ class ExerciseRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: Theme.of(context).textTheme.titleMedium),
+        WhiteOutline(
+          child: Text(name, style: Theme.of(context).textTheme.titleMedium),
+        ),
         Text(muscleGroup),
         Text('$weight · $sets · $reps'),
       ],

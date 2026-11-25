@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:gymtracker/data/exercise_executions.dart';
 import 'package:gymtracker/ui/design_system/app_theme.dart';
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<void> showExerciseExecution(
@@ -22,7 +23,15 @@ Future<void> showExerciseExecution(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: WhiteOutline(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
             ExerciseImage(nameEn: nameEn),
             const SizedBox(height: 16),

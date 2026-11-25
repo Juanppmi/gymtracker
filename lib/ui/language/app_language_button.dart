@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
+import 'package:gymtracker/ui/design_system/white_outline.dart';
 import 'package:gymtracker/ui/language/app_language.dart';
 import 'package:gymtracker/ui/language/app_language_controller.dart';
 import 'package:material_ui/material_ui.dart';
@@ -25,17 +26,17 @@ class AppLanguageButton extends ConsumerWidget {
         PopupMenuItem(
           key: const Key('language-system'),
           value: AppLanguage.system,
-          child: Text(l10n.languageSystem),
+          child: WhiteOutline(child: Text(l10n.languageSystem)),
         ),
         PopupMenuItem(
           key: const Key('language-english'),
           value: AppLanguage.english,
-          child: Text(l10n.languageEnglish),
+          child: WhiteOutline(child: Text(l10n.languageEnglish)),
         ),
         PopupMenuItem(
           key: const Key('language-portuguese'),
           value: AppLanguage.portuguese,
-          child: Text(l10n.languagePortuguese),
+          child: WhiteOutline(child: Text(l10n.languagePortuguese)),
         ),
       ],
     );
