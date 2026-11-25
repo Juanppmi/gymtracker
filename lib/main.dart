@@ -6,6 +6,9 @@ import 'package:gymtracker/data/gym_repository.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/l10n/locale_resolution.dart';
 import 'package:gymtracker/ui/design_system/app_theme.dart';
+import 'package:gymtracker/ui/language/app_language.dart';
+import 'package:gymtracker/ui/language/app_language_controller.dart';
+import 'package:gymtracker/ui/language/app_language_store.dart';
 import 'package:gymtracker/ui/navigation/home_shell.dart';
 import 'package:gymtracker/ui/theme/theme_mode_controller.dart';
 import 'package:gymtracker/ui/theme/theme_mode_store.dart';
@@ -14,8 +17,12 @@ import 'package:material_ui/material_ui.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final themeModeStore = await SharedPreferencesThemeModeStore.open();
+  final languageStore = await SharedPreferencesAppLanguageStore.open();
   final container = ProviderContainer(
-    overrides: [themeModeStoreProvider.overrideWithValue(themeModeStore)],
+    overrides: [
+      themeModeStoreProvider.overrideWithValue(themeModeStore),
+      appLanguageStoreProvider.overrideWithValue(languageStore),
+    ],
   );
   await container.read(gymRepositoryProvider).ensureSeeded();
   runApp(
@@ -38,7 +45,7 @@ class GymTrackerApp extends ConsumerWidget {
       theme: buildAppTheme(Brightness.light),
       darkTheme: buildAppTheme(Brightness.dark),
       themeMode: ref.watch(themeModeProvider),
-      locale: locale,
+      locale: locale ?? localeFor(ref.watch(appLanguageProvider)),
       localeResolutionCallback: resolveAppLocale,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: [

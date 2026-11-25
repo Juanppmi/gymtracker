@@ -166,4 +166,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get execution => 'Execução';
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String get languageSystem => 'Sistema';
+
+  @override
+  String get languageEnglish => 'Inglês';
+
+  @override
+  String get languagePortuguese => 'Português';
 }
