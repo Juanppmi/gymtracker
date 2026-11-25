@@ -1,4 +1,4 @@
-import 'package:gymtracker/ui/design_system/white_outline.dart';
+import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<bool> confirmAction(
@@ -14,7 +14,7 @@ Future<bool> confirmAction(
       return AlertDialog(
         title: Align(
           alignment: Alignment.centerLeft,
-          child: WhiteOutline(child: Text(title)),
+          child: StrokedText(title),
         ),
         content: Text(message),
         actions: [
