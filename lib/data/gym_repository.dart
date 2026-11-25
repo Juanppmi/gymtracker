@@ -20,11 +20,6 @@ class GymRepository {
   final AppDatabase _database;
 
   Future<void> ensureSeeded() async {
-    final existing = await _database.select(_database.exercises).get();
-    if (existing.isNotEmpty) {
-      return;
-    }
-
     final script = await rootBundle.loadString('assets/seed/exercises.sql');
     final statements = script
         .split(';')
