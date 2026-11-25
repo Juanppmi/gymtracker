@@ -3,7 +3,7 @@ import 'package:gymtracker/data/db/app_database.dart';
 import 'package:gymtracker/data/gym_repository.dart';
 import 'package:gymtracker/data/muscle_group.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
-import 'package:gymtracker/ui/design_system/white_outline.dart';
+import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:gymtracker/ui/routine/exercise_labels.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -66,15 +66,13 @@ class _ExerciseCatalogScreenState extends ConsumerState<ExerciseCatalogScreen> {
               for (final exercise in visible)
                 ListTile(
                   key: Key('catalog-${exercise.id}'),
-                  title: WhiteOutline(
-                    child: Text(
-                      localizedExerciseName(
-                        languageCode: languageCode,
-                        nameEn: exercise.nameEn,
-                        namePt: exercise.namePt,
-                      ),
-                      style: Theme.of(context).textTheme.titleMedium,
+                  title: StrokedText(
+                    localizedExerciseName(
+                      languageCode: languageCode,
+                      nameEn: exercise.nameEn,
+                      namePt: exercise.namePt,
                     ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   subtitle: Text(muscleGroupLabel(l10n, exercise.muscleGroup)),
                   onTap: () async {

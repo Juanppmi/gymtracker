@@ -1,6 +1,6 @@
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_title.dart';
-import 'package:gymtracker/ui/design_system/white_outline.dart';
+import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:gymtracker/ui/language/app_language_button.dart';
 import 'package:gymtracker/ui/routine/routine_screen.dart';
 import 'package:gymtracker/ui/theme/theme_mode_button.dart';
@@ -21,8 +21,8 @@ class HomeShell extends StatelessWidget {
           actions: const [AppLanguageButton(), ThemeModeButton()],
           bottom: TabBar(
             tabs: [
-              Tab(child: WhiteOutline(child: Text(l10n.today))),
-              Tab(child: WhiteOutline(child: Text(l10n.routine))),
+              Tab(child: StrokedText(l10n.today)),
+              Tab(child: StrokedText(l10n.routine)),
             ],
           ),
         ),

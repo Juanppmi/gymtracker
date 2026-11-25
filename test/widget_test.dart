@@ -9,7 +9,7 @@ import 'package:gymtracker/ui/design_system/app_button.dart';
 import 'package:gymtracker/ui/design_system/confirm_dialog.dart';
 import 'package:gymtracker/ui/design_system/exercise_row.dart';
 import 'package:gymtracker/ui/design_system/weekday_circle.dart';
-import 'package:gymtracker/ui/design_system/white_outline.dart';
+import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
@@ -63,10 +63,7 @@ void main() {
 
     expect(find.text('Today'), findsOneWidget);
     expect(
-      find.ancestor(
-        of: find.text('Today'),
-        matching: find.byType(WhiteOutline),
-      ),
+      find.ancestor(of: find.text('Today'), matching: find.byType(StrokedText)),
       findsOneWidget,
     );
     expect(find.text('Routine'), findsOneWidget);
