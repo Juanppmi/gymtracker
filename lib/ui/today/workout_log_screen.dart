@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymtracker/data/clock.dart';
+import 'package:gymtracker/data/exercise_executions.dart';
 import 'package:gymtracker/data/gym_repository.dart';
 import 'package:gymtracker/data/week.dart';
 import 'package:gymtracker/data/workout_draft.dart';
@@ -7,6 +8,7 @@ import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
 import 'package:gymtracker/ui/design_system/app_text_field.dart';
 import 'package:gymtracker/ui/design_system/exercise_row.dart';
+import 'package:gymtracker/ui/exercise/exercise_execution_sheet.dart';
 import 'package:gymtracker/ui/routine/exercise_labels.dart';
 import 'package:gymtracker/ui/today/today_log_notifier.dart';
 import 'package:gymtracker/ui/today/workout_log_notifier.dart';
@@ -146,6 +148,28 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
                 ),
               ),
             ],
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              key: Key('log-execution-${item.position}'),
+              onPressed: () {
+                showExerciseExecution(
+                  context,
+                  title: localizedExerciseName(
+                    languageCode: languageCode,
+                    nameEn: item.nameEn,
+                    namePt: item.namePt,
+                  ),
+                  description: executionDescription(
+                    exerciseId: item.exerciseId,
+                    languageCode: languageCode,
+                  ),
+                  nameEn: item.nameEn,
+                );
+              },
+              child: Text(l10n.execution),
+            ),
           ),
         ],
       ),

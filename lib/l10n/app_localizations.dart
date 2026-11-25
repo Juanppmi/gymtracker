@@ -403,6 +403,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// No description provided for @execution.
+  ///
+  /// In en, this message translates to:
+  /// **'Execution'**
+  String get execution;
 }
 
 class _AppLocalizationsDelegate

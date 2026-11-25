@@ -57,5 +57,6 @@
   "theme": "Tema",
   "themeSystem": "Sistema",
   "themeLight": "Claro",
-  "themeDark": "Escuro"
+  "themeDark": "Escuro",
+  "execution": "Execução"
 }

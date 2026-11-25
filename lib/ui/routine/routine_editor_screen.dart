@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gymtracker/data/exercise_executions.dart';
 import 'package:gymtracker/data/routine_exercise_item.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
+import 'package:gymtracker/ui/exercise/exercise_execution_sheet.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
 import 'package:gymtracker/ui/design_system/app_text_field.dart';
 import 'package:gymtracker/ui/design_system/exercise_row.dart';
@@ -179,19 +181,40 @@ class _EditorTileState extends ConsumerState<_EditorTile> {
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    key: Key('remove-${item.id}'),
-                    onPressed: () {
-                      ref
-                          .read(
-                            routineEditorProvider(widget.routineId).notifier,
-                          )
-                          .remove(item.id);
-                    },
-                    child: Text(l10n.remove),
-                  ),
+                Row(
+                  children: [
+                    TextButton(
+                      key: Key('execution-${item.id}'),
+                      onPressed: () {
+                        showExerciseExecution(
+                          context,
+                          title: localizedExerciseName(
+                            languageCode: languageCode,
+                            nameEn: item.nameEn,
+                            namePt: item.namePt,
+                          ),
+                          description: executionDescription(
+                            exerciseId: item.exerciseId,
+                            languageCode: languageCode,
+                          ),
+                          nameEn: item.nameEn,
+                        );
+                      },
+                      child: Text(l10n.execution),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      key: Key('remove-${item.id}'),
+                      onPressed: () {
+                        ref
+                            .read(
+                              routineEditorProvider(widget.routineId).notifier,
+                            )
+                            .remove(item.id);
+                      },
+                      child: Text(l10n.remove),
+                    ),
+                  ],
                 ),
               ],
             ),

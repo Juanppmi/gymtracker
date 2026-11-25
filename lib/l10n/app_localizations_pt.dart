@@ -163,4 +163,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get themeDark => 'Escuro';
+
+  @override
+  String get execution => 'Execução';
 }
