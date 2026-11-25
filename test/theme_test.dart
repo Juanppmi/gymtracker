@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymtracker/ui/design_system/app_theme.dart';
 import 'package:gymtracker/ui/theme/theme_mode_store.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +35,9 @@ void main() {
     await pumpGymApp(tester, const Locale('en'));
     await tester.pumpAndSettle();
     expect(_brightness(tester), Brightness.light);
+    expect(_theme(tester).colorScheme.primary, appPurple);
+    expect(_theme(tester).scaffoldBackgroundColor, appWhite);
+    expect(_theme(tester).colorScheme.onSurface, appBlack);
 
     await tester.tap(find.byKey(const Key('theme-button')));
     await tester.pumpAndSettle();
@@ -44,6 +48,9 @@ void main() {
     await tester.tap(find.byKey(const Key('theme-dark')));
     await tester.pumpAndSettle();
     expect(_brightness(tester), Brightness.dark);
+    expect(_theme(tester).scaffoldBackgroundColor, appBlack);
+    expect(_theme(tester).colorScheme.primary, appPurple);
+    expect(_theme(tester).colorScheme.onSurface, appWhite);
 
     await tester.tap(find.byKey(const Key('theme-button')));
     await tester.pumpAndSettle();
@@ -70,6 +77,9 @@ void main() {
 }
 
 Brightness _brightness(WidgetTester tester) {
-  return Theme.of(tester.element(find.byKey(const Key('today-screen'))))
-      .brightness;
+  return _theme(tester).brightness;
+}
+
+ThemeData _theme(WidgetTester tester) {
+  return Theme.of(tester.element(find.byKey(const Key('today-screen'))));
 }
