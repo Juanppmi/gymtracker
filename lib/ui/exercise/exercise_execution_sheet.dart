@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
 import 'package:gymtracker/data/exercise_executions.dart';
+import 'package:gymtracker/ui/design_system/app_theme.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<void> showExerciseExecution(
@@ -14,8 +18,9 @@ Future<void> showExerciseExecution(
       final bottom = MediaQuery.paddingOf(context).bottom;
       return Padding(
         padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + bottom),
-        child: ListView(
-          shrinkWrap: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
@@ -29,30 +34,56 @@ Future<void> showExerciseExecution(
   );
 }
 
-class ExerciseImage extends StatelessWidget {
+class ExerciseImage extends StatefulWidget {
   const ExerciseImage({super.key, required this.nameEn});
 
   final String nameEn;
 
   @override
+  State<ExerciseImage> createState() => _ExerciseImageState();
+}
+
+class _ExerciseImageState extends State<ExerciseImage> {
+  late final Future<Uint8List?> _bytes = loadExerciseImage(widget.nameEn);
+
+  @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      exerciseImagePath(nameEn, 'png'),
-      key: const Key('execution-image'),
-      height: 220,
-      width: double.infinity,
-      fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) {
-        return Image.asset(
-          exerciseImagePath(nameEn, 'jpg'),
-          height: 220,
-          width: double.infinity,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            return const SizedBox(height: 220);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: const Color(0xFF14001F),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: appPurple, width: 2),
+      ),
+      child: SizedBox(
+        height: 220,
+        width: double.infinity,
+        child: FutureBuilder<Uint8List?>(
+          future: _bytes,
+          builder: (context, snapshot) {
+            final bytes = snapshot.data;
+            if (bytes == null) {
+              return const SizedBox.expand();
+            }
+            return Image.memory(
+              bytes,
+              key: const Key('execution-image'),
+              fit: BoxFit.contain,
+            );
           },
-        );
-      },
+        ),
+      ),
     );
   }
+}
+
+Future<Uint8List?> loadExerciseImage(String nameEn) async {
+  for (final extension in ['png', 'jpg']) {
+    try {
+      final data = await rootBundle.load(exerciseImagePath(nameEn, extension));
+      return data.buffer.asUint8List();
+    } on FlutterError {
+      continue;
+    }
+  }
+  return null;
 }
