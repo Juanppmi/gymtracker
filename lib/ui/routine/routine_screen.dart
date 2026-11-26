@@ -87,13 +87,17 @@ class _WeekdaySection extends ConsumerWidget {
                 key: Key('assignment-${assignments[index].id}'),
                 name: assignments[index].routineName,
                 removeKey: Key('remove-assignment-${assignments[index].id}'),
-                addKey: index == 0 ? Key('assign-$weekday') : null,
+                addKey: index == assignments.length - 1
+                    ? Key('assign-$weekday')
+                    : null,
                 onRemove: () {
                   ref
                       .read(weekdayAssignmentsProvider.notifier)
                       .remove(assignments[index].id);
                 },
-                onAdd: () => _assign(context, ref),
+                onAdd: index == assignments.length - 1
+                    ? () => _assign(context, ref)
+                    : null,
                 onOpen: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
@@ -113,7 +117,6 @@ class _WeekdaySection extends ConsumerWidget {
       children: [
         Text(
           weekdayLabel(l10n, weekday),
-          textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         ...rows,
@@ -148,7 +151,7 @@ class _RoutineControls extends StatelessWidget {
     this.removeKey,
     this.addKey,
     this.onRemove,
-    required this.onAdd,
+    this.onAdd,
     this.onOpen,
     required this.removeTooltip,
     required this.addTooltip,
@@ -158,7 +161,7 @@ class _RoutineControls extends StatelessWidget {
   final Key? removeKey;
   final Key? addKey;
   final VoidCallback? onRemove;
-  final VoidCallback onAdd;
+  final VoidCallback? onAdd;
   final VoidCallback? onOpen;
   final String removeTooltip;
   final String addTooltip;
@@ -166,22 +169,7 @@ class _RoutineControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        IconButton(
-          key: removeKey,
-          tooltip: removeTooltip,
-          visualDensity: VisualDensity.compact,
-          onPressed: onRemove,
-          icon: const Icon(Icons.remove),
-        ),
-        IconButton(
-          key: addKey,
-          tooltip: addTooltip,
-          visualDensity: VisualDensity.compact,
-          onPressed: onAdd,
-          icon: const Icon(Icons.add),
-        ),
         if (name != null)
           FilledButton(
             style: FilledButton.styleFrom(
@@ -192,6 +180,23 @@ class _RoutineControls extends StatelessWidget {
             ),
             onPressed: onOpen,
             child: Text(name!),
+          ),
+        const Spacer(),
+        if (onRemove != null)
+          IconButton(
+            key: removeKey,
+            tooltip: removeTooltip,
+            visualDensity: VisualDensity.compact,
+            onPressed: onRemove,
+            icon: const Icon(Icons.remove),
+          ),
+        if (onAdd != null)
+          IconButton(
+            key: addKey,
+            tooltip: addTooltip,
+            visualDensity: VisualDensity.compact,
+            onPressed: onAdd,
+            icon: const Icon(Icons.add),
           ),
       ],
     );
