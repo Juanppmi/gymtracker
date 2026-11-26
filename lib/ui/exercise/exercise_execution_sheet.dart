@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:gymtracker/data/exercise_executions.dart';
 import 'package:gymtracker/ui/design_system/app_theme.dart';
-import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<void> showExerciseExecution(
@@ -25,10 +24,7 @@ Future<void> showExerciseExecution(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: StrokedText(
-                title,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+              child: Text(title, style: Theme.of(context).textTheme.titleLarge),
             ),
             const SizedBox(height: 16),
             ExerciseImage(nameEn: nameEn),

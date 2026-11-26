@@ -1,4 +1,3 @@
-import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:material_ui/material_ui.dart';
 
 class AppTextField extends StatelessWidget {
@@ -21,7 +20,7 @@ class AppTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       onChanged: onChanged,
-      decoration: InputDecoration(label: StrokedText(label)),
+      decoration: InputDecoration(labelText: label),
     );
   }
 }

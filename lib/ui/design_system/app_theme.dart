@@ -5,6 +5,9 @@ const appBlack = Color(0xFF000000);
 const appWhite = Color(0xFFFFFFFF);
 
 ThemeData buildAppTheme(Brightness brightness) {
+  final dark = brightness == Brightness.dark;
+  final surface = dark ? appBlack : appWhite;
+  final onSurface = dark ? appWhite : appBlack;
   const buttonShape = RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(12)),
   );
@@ -18,24 +21,24 @@ ThemeData buildAppTheme(Brightness brightness) {
       onSecondary: appWhite,
       error: const Color(0xFFFF8A80),
       onError: appBlack,
-      surface: appBlack,
-      onSurface: appWhite,
+      surface: surface,
+      onSurface: onSurface,
     ),
-    scaffoldBackgroundColor: appBlack,
-    canvasColor: appBlack,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: appBlack,
-      foregroundColor: appPurple,
+    scaffoldBackgroundColor: surface,
+    canvasColor: surface,
+    appBarTheme: AppBarTheme(
+      backgroundColor: surface,
+      foregroundColor: onSurface,
       elevation: 0,
     ),
-    tabBarTheme: const TabBarThemeData(
-      labelColor: appPurple,
-      unselectedLabelColor: appPurple,
-      indicatorColor: appWhite,
+    tabBarTheme: TabBarThemeData(
+      labelColor: onSurface,
+      unselectedLabelColor: onSurface,
+      indicatorColor: appPurple,
     ),
-    popupMenuTheme: const PopupMenuThemeData(
-      color: appBlack,
-      textStyle: TextStyle(color: appPurple),
+    popupMenuTheme: PopupMenuThemeData(
+      color: surface,
+      textStyle: TextStyle(color: onSurface),
     ),
     iconTheme: const IconThemeData(color: appPurple),
     filledButtonTheme: FilledButtonThemeData(
@@ -52,32 +55,32 @@ ThemeData buildAppTheme(Brightness brightness) {
         shape: buttonShape,
       ),
     ),
-    inputDecorationTheme: const InputDecorationTheme(
-      labelStyle: TextStyle(color: appPurple),
-      floatingLabelStyle: TextStyle(color: appPurple),
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(color: onSurface),
+      floatingLabelStyle: TextStyle(color: onSurface),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: appPurple),
+        borderSide: BorderSide(color: onSurface),
       ),
-      focusedBorder: OutlineInputBorder(
+      focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: appPurple, width: 2),
       ),
     ),
-    textTheme: const TextTheme(
-      titleLarge: TextStyle(color: appPurple, fontWeight: FontWeight.w700),
-      titleMedium: TextStyle(color: appPurple, fontWeight: FontWeight.w700),
-      bodyLarge: TextStyle(color: appWhite),
-      bodyMedium: TextStyle(color: appWhite),
-      labelLarge: TextStyle(color: appWhite),
+    textTheme: TextTheme(
+      titleLarge: TextStyle(color: onSurface, fontWeight: FontWeight.w700),
+      titleMedium: TextStyle(color: onSurface, fontWeight: FontWeight.w700),
+      bodyLarge: TextStyle(color: onSurface),
+      bodyMedium: TextStyle(color: onSurface),
+      labelLarge: const TextStyle(color: appWhite),
     ),
-    chipTheme: const ChipThemeData(
-      backgroundColor: Color(0xFF14001F),
+    chipTheme: ChipThemeData(
+      backgroundColor: dark ? const Color(0xFF14001F) : const Color(0xFFF3E9FB),
       selectedColor: appPurple,
-      labelStyle: TextStyle(color: appWhite),
-      secondaryLabelStyle: TextStyle(color: appWhite),
-      side: BorderSide(color: appPurple),
+      labelStyle: TextStyle(color: onSurface),
+      secondaryLabelStyle: const TextStyle(color: appWhite),
+      side: const BorderSide(color: appPurple),
       showCheckmark: false,
     ),
-    dialogTheme: const DialogThemeData(backgroundColor: appBlack),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: appBlack),
+    dialogTheme: DialogThemeData(backgroundColor: surface),
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: surface),
   );
 }

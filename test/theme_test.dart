@@ -37,7 +37,8 @@ void main() {
     expect(_brightness(tester), Brightness.light);
     expect(_theme(tester).colorScheme.primary, appPurple);
     expect(_theme(tester).colorScheme.onPrimary, appWhite);
-    expect(_theme(tester).scaffoldBackgroundColor, appBlack);
+    expect(_theme(tester).scaffoldBackgroundColor, appWhite);
+    expect(_theme(tester).colorScheme.onSurface, appBlack);
     expect(find.byKey(const Key('app-title')), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('theme-button')));
@@ -50,6 +51,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(_brightness(tester), Brightness.dark);
     expect(_theme(tester).scaffoldBackgroundColor, appBlack);
+    expect(_theme(tester).colorScheme.onSurface, appWhite);
     expect(_theme(tester).colorScheme.primary, appPurple);
     expect(_theme(tester).colorScheme.onPrimary, appWhite);
 
