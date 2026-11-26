@@ -78,6 +78,7 @@ void main() {
     await tester.tap(find.widgetWithText(ChoiceChip, 'Chest'));
     await tester.pumpAndSettle();
     expect(find.text('Bench press'), findsOneWidget);
+    expect(find.byKey(const Key('exercise-image-Bench press')), findsOneWidget);
     expect(find.text('Lat pulldown'), findsNothing);
     await tester.tap(find.text('Bench press'));
     await tester.pumpAndSettle();

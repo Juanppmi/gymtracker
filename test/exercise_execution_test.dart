@@ -33,7 +33,9 @@ void main() {
     );
   });
 
-  testWidgets('Execution shows the description and the image', (tester) async {
+  testWidgets('Execution shows the description without the image', (
+    tester,
+  ) async {
     final database = AppDatabase(NativeDatabase.memory());
     final repository = GymRepository(database);
     addTearDown(database.close);
@@ -67,11 +69,13 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    expect(find.byKey(const Key('exercise-image-Bench press')), findsOneWidget);
+
     await tester.tap(find.byKey(const Key('execution-1')));
     await tester.pumpAndSettle();
 
     expect(find.text('Bench press'), findsWidgets);
     expect(find.textContaining('lower the bar to your chest'), findsOneWidget);
-    expect(find.byKey(const Key('execution-image')), findsOneWidget);
+    expect(find.byKey(const Key('execution-image')), findsNothing);
   });
 }

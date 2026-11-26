@@ -111,6 +111,7 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
               nameEn: item.nameEn,
               namePt: item.namePt,
             ),
+            nameEn: item.nameEn,
             muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
             weight: item.weightLabel,
             sets: item.sets.toString(),
@@ -165,7 +166,6 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
                     exerciseId: item.exerciseId,
                     languageCode: languageCode,
                   ),
-                  nameEn: item.nameEn,
                 );
               },
               child: Text(l10n.execution),

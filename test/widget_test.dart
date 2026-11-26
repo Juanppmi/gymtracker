@@ -128,6 +128,7 @@ void main() {
         home: Scaffold(
           body: ExerciseRow(
             name: 'Bench press',
+            nameEn: 'Bench press',
             muscleGroup: 'Chest',
             weight: '20 kg',
             sets: '3',
@@ -136,6 +137,7 @@ void main() {
         ),
       ),
     );
+    await tester.pumpAndSettle();
 
     expect(find.text('Bench press'), findsOneWidget);
     expect(find.text('Chest'), findsOneWidget);
