@@ -153,6 +153,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noRoutinesThisDay => 'Nenhuma ficha neste dia';
 
   @override
+  String get todaysRoutine => 'Rotina de hoje';
+
+  @override
+  String get startWorkout => 'Começar';
+
+  @override
+  String get continueWorkout => 'Continuar';
+
+  @override
+  String get review => 'Rever';
+
+  @override
   String get theme => 'Tema';
 
   @override

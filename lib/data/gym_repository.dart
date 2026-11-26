@@ -341,6 +341,27 @@ class GymRepository {
         .get();
   }
 
+  Future<Map<int, int>> exerciseCounts() async {
+    final rows = await _database.select(_database.routineExercises).get();
+    final counts = <int, int>{};
+    for (final row in rows) {
+      counts[row.routineId] = (counts[row.routineId] ?? 0) + 1;
+    }
+    return counts;
+  }
+
+  Future<Map<(int, int), int>> checkedCountsForWeek(DateTime weekStart) async {
+    final rows = await (_database.select(
+      _database.exerciseChecks,
+    )..where((row) => row.weekStart.equals(weekStart))).get();
+    final counts = <(int, int), int>{};
+    for (final row in rows) {
+      final key = (row.weekday, row.routineId);
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    return counts;
+  }
+
   Future<void> setExerciseChecked({
     required DateTime weekStart,
     required int weekday,

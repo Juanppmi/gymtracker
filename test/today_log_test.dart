@@ -46,6 +46,7 @@ void main() {
       logged: {(tuesday, 1)},
     );
     expect(open.isFilled(tuesday), isFalse);
+    expect(open.progressFor(tuesday), 0.5);
     expect(open.isFilled(DateTime.monday), isFalse);
 
     final done = WeekSnapshot(
@@ -54,6 +55,22 @@ void main() {
       logged: {(tuesday, 1), (tuesday, 2)},
     );
     expect(done.isFilled(tuesday), isTrue);
+    expect(done.progressFor(tuesday), 1);
+
+    final oneOfThree = WeekSnapshot(
+      weekStart: open.weekStart,
+      assignments: [
+        ...open.assignments,
+        const WeekdayAssignmentItem(
+          id: 3,
+          weekday: tuesday,
+          routineId: 3,
+          routineName: 'Legs',
+        ),
+      ],
+      logged: {(tuesday, 1)},
+    );
+    expect(oneOfThree.progressFor(tuesday), closeTo(1 / 3, 0.001));
   });
 
   test('finishing again updates the same session', () async {
@@ -151,7 +168,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('day-${DateTime.tuesday}')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Push day'));
+    await tester.tap(find.byKey(const Key('open-today-1')));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('log-weight-0')), findsNothing);
@@ -172,7 +189,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('day-${DateTime.thursday}')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Push day'));
+    await tester.tap(find.byKey(const Key('open-today-1')));
     await tester.pumpAndSettle();
     await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-weight-0'), '20');
@@ -181,7 +198,7 @@ void main() {
 
     await tester.tap(find.byKey(Key('day-${DateTime.tuesday}')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Push day'));
+    await tester.tap(find.byKey(const Key('open-today-1')));
     await tester.pumpAndSettle();
     await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-weight-0'), '20');
@@ -307,14 +324,20 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Push day'));
+    expect(find.text("Today's routine"), findsOneWidget);
+    expect(find.text('Start'), findsOneWidget);
+    expect(_circle(tester, DateTime.tuesday).large, isTrue);
+    expect(_circle(tester, DateTime.monday).large, isFalse);
+    await tester.tap(find.byKey(const Key('open-today-1')));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const Key('check-0')));
     await tester.pumpAndSettle();
     await tester.pageBack();
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Push day'));
+    expect(find.text('Continue'), findsOneWidget);
+    expect(_circle(tester, DateTime.tuesday).progress, 0);
+    await tester.tap(find.byKey(const Key('open-today-1')));
     await tester.pumpAndSettle();
 
     expect(
@@ -334,6 +357,10 @@ void main() {
       tester.widget<Checkbox>(find.byKey(const Key('check-1'))).value,
       isTrue,
     );
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.text('Review'), findsOneWidget);
+    expect(_circle(tester, DateTime.tuesday).progress, 1);
   });
 }
 

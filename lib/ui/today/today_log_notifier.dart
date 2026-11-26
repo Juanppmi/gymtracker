@@ -16,12 +16,16 @@ class TodayLogNotifier extends AsyncNotifier<WeekSnapshot> {
     final weekStart = weekStartOf(ref.watch(clockProvider));
     final assignments = await ref.watch(weekdayAssignmentsProvider.future);
     final sessions = await repository.sessionsForWeek(weekStart);
+    final checkedCounts = await repository.checkedCountsForWeek(weekStart);
+    final exerciseCounts = await repository.exerciseCounts();
     return WeekSnapshot(
       weekStart: weekStart,
       assignments: assignments,
       logged: {
         for (final session in sessions) (session.weekday, session.routineId),
       },
+      checkedCounts: checkedCounts,
+      exerciseCounts: exerciseCounts,
     );
   }
 }

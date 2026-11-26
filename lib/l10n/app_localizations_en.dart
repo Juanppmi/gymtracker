@@ -153,6 +153,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noRoutinesThisDay => 'No routines this day';
 
   @override
+  String get todaysRoutine => 'Today\'s routine';
+
+  @override
+  String get startWorkout => 'Start';
+
+  @override
+  String get continueWorkout => 'Continue';
+
+  @override
+  String get review => 'Review';
+
+  @override
   String get theme => 'Theme';
 
   @override

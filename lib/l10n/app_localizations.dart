@@ -380,6 +380,30 @@ abstract class AppLocalizations {
   /// **'No routines this day'**
   String get noRoutinesThisDay;
 
+  /// No description provided for @todaysRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s routine'**
+  String get todaysRoutine;
+
+  /// No description provided for @startWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get startWorkout;
+
+  /// No description provided for @continueWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueWorkout;
+
+  /// No description provided for @review.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get review;
+
   /// No description provided for @theme.
   ///
   /// In en, this message translates to:

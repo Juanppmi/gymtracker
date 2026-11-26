@@ -292,8 +292,8 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
             routineId: widget.routineId,
           );
       _logged = false;
-      ref.invalidate(todayLogProvider);
     }
+    ref.invalidate(todayLogProvider);
   }
 
   Future<void> _storeCheck(WorkoutDraft item, bool checked) {
