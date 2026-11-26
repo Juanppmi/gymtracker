@@ -4,7 +4,6 @@ import 'package:gymtracker/data/weekday.dart';
 import 'package:gymtracker/data/weekday_assignment_item.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/weekday_circle.dart';
-import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:gymtracker/ui/routine/weekday_label.dart';
 import 'package:gymtracker/ui/today/today_log_notifier.dart';
 import 'package:gymtracker/ui/today/workout_log_screen.dart';
@@ -50,17 +49,14 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
                             children: [
                               WeekdayCircle(filled: snapshot.isFilled(weekday)),
                               const SizedBox(height: 4),
-                              weekday == selected
-                                  ? StrokedText(
-                                      weekdayShortLabel(l10n, weekday),
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : Text(weekdayShortLabel(l10n, weekday)),
+                              Text(
+                                weekdayShortLabel(l10n, weekday),
+                                style: TextStyle(
+                                  fontWeight: weekday == selected
+                                      ? FontWeight.bold
+                                      : null,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -70,12 +66,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: StrokedText(
-                    weekdayLabel(l10n, selected),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                child: Text(
+                  weekdayLabel(l10n, selected),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               const SizedBox(height: 8),
@@ -110,7 +103,7 @@ class _TodayRoutineTile extends StatelessWidget {
     return ListTile(
       key: Key('today-routine-${routine.routineId}'),
       contentPadding: EdgeInsets.zero,
-      title: StrokedText(
+      title: Text(
         routine.routineName,
         style: Theme.of(context).textTheme.titleMedium,
       ),

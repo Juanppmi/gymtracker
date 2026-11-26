@@ -5,7 +5,6 @@ import 'package:gymtracker/data/weekday.dart';
 import 'package:gymtracker/data/weekday_assignment_item.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
-import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:gymtracker/ui/routine/routine_list_screen.dart';
 import 'package:gymtracker/ui/routine/weekday_assignment_notifier.dart';
 import 'package:gymtracker/ui/routine/weekday_label.dart';
@@ -74,7 +73,7 @@ class _WeekdaySection extends ConsumerWidget {
       children: [
         Align(
           alignment: Alignment.centerLeft,
-          child: StrokedText(
+          child: Text(
             weekdayLabel(l10n, weekday),
             style: Theme.of(context).textTheme.titleMedium,
           ),
@@ -83,7 +82,7 @@ class _WeekdaySection extends ConsumerWidget {
           ListTile(
             key: Key('assignment-${assignment.id}'),
             contentPadding: EdgeInsets.zero,
-            title: StrokedText(
+            title: Text(
               assignment.routineName,
               style: Theme.of(context).textTheme.titleMedium,
             ),
@@ -134,7 +133,7 @@ Future<int?> _pickRoutine(BuildContext context, List<Routine> routines) {
       return SimpleDialog(
         title: Align(
           alignment: Alignment.centerLeft,
-          child: StrokedText(
+          child: Text(
             l10n.assignRoutine,
             style: Theme.of(context).textTheme.titleLarge,
           ),

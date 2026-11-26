@@ -1,4 +1,3 @@
-import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:material_ui/material_ui.dart';
 
 Future<bool> confirmAction(
@@ -12,10 +11,7 @@ Future<bool> confirmAction(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: StrokedText(title),
-        ),
+        title: Text(title),
         content: Text(message),
         actions: [
           TextButton(

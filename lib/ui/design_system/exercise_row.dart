@@ -1,4 +1,3 @@
-import 'package:gymtracker/ui/design_system/stroked_text.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ExerciseRow extends StatelessWidget {
@@ -22,7 +21,7 @@ class ExerciseRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        StrokedText(name, style: Theme.of(context).textTheme.titleMedium),
+        Text(name, style: Theme.of(context).textTheme.titleMedium),
         Text(muscleGroup),
         Text('$weight · $sets · $reps'),
       ],
