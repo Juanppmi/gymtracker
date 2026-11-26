@@ -198,6 +198,43 @@ void main() {
     await tester.pumpAndSettle();
     expect(await _fieldText(tester, 'weight-1'), '25');
   });
+
+  testWidgets('a routine assigned for today appears without a restart', (
+    tester,
+  ) async {
+    final today = DateTime(2026, 11, 24);
+    await tester.binding.setSurfaceSize(const Size(400, 1600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.runAsync(() async {
+      await repository.ensureSeeded();
+      await repository.createRoutine('Push day');
+    });
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          gymRepositoryProvider.overrideWithValue(repository),
+          clockProvider.overrideWithValue(today),
+        ],
+        child: const GymTrackerApp(locale: Locale('en')),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Push day'), findsNothing);
+
+    await tester.tap(find.text('Routine'));
+    await tester.pumpAndSettle();
+    final assign = find.byKey(Key('assign-${DateTime.tuesday}'));
+    await tester.ensureVisible(assign);
+    await tester.tap(assign);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Push day'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Today'));
+    await tester.pumpAndSettle();
+    expect(find.text('Push day'), findsOneWidget);
+  });
 }
 
 WeekdayCircle _circle(WidgetTester tester, int weekday) {
