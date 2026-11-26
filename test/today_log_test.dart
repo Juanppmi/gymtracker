@@ -235,6 +235,98 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Push day'), findsOneWidget);
   });
+
+  test('a checked exercise stays stored', () async {
+    await repository.ensureSeeded();
+    await repository.createRoutine('Push day');
+    await repository.addExerciseToRoutine(1, 1);
+    final weekStart = DateTime(2026, 11, 23);
+    await repository.setExerciseChecked(
+      weekStart: weekStart,
+      weekday: DateTime.tuesday,
+      routineId: 1,
+      exerciseId: 1,
+      position: 0,
+      checked: true,
+    );
+
+    final checks = await repository.checksFor(
+      weekStart: weekStart,
+      weekday: DateTime.tuesday,
+      routineId: 1,
+    );
+    expect(checks.single.exerciseId, 1);
+
+    await repository.setExerciseChecked(
+      weekStart: weekStart,
+      weekday: DateTime.tuesday,
+      routineId: 1,
+      exerciseId: 1,
+      position: 0,
+      checked: false,
+    );
+    expect(
+      await repository.checksFor(
+        weekStart: weekStart,
+        weekday: DateTime.tuesday,
+        routineId: 1,
+      ),
+      isEmpty,
+    );
+  });
+
+  testWidgets('checking the last exercise concludes the routine', (
+    tester,
+  ) async {
+    final today = DateTime(2026, 11, 24);
+    await tester.binding.setSurfaceSize(const Size(400, 1600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.runAsync(() async {
+      await repository.ensureSeeded();
+      await repository.createRoutine('Push day');
+      await repository.addExerciseToRoutine(1, 1);
+      await repository.addExerciseToRoutine(1, 3);
+      await repository.assignRoutineToWeekday(DateTime.tuesday, 1);
+    });
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          gymRepositoryProvider.overrideWithValue(repository),
+          clockProvider.overrideWithValue(today),
+        ],
+        child: const GymTrackerApp(locale: Locale('en')),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Push day'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('check-0')));
+    await tester.pumpAndSettle();
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Push day'));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<Checkbox>(find.byKey(const Key('check-0'))).value,
+      isTrue,
+    );
+    expect(
+      tester.widget<Checkbox>(find.byKey(const Key('check-1'))).value,
+      isFalse,
+    );
+    expect(await repository.sessionsForWeek(weekStartOf(today)), isEmpty);
+
+    await tester.tap(find.byKey(const Key('check-1')));
+    await tester.pumpAndSettle();
+    expect(await repository.sessionsForWeek(weekStartOf(today)), hasLength(1));
+    expect(
+      tester.widget<Checkbox>(find.byKey(const Key('check-1'))).value,
+      isTrue,
+    );
+  });
 }
 
 WeekdayCircle _circle(WidgetTester tester, int weekday) {

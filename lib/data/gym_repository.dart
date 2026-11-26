@@ -304,4 +304,74 @@ class GymRepository {
         ))
         .getSingleOrNull();
   }
+
+  Future<bool> hasWorkout({
+    required DateTime weekStart,
+    required int weekday,
+    required int routineId,
+  }) async {
+    return await _sessionFor(weekStart, weekday, routineId) != null;
+  }
+
+  Future<void> deleteWorkout({
+    required DateTime weekStart,
+    required int weekday,
+    required int routineId,
+  }) async {
+    final existing = await _sessionFor(weekStart, weekday, routineId);
+    if (existing == null) {
+      return;
+    }
+    await (_database.delete(
+      _database.workoutSessions,
+    )..where((row) => row.id.equals(existing.id))).go();
+  }
+
+  Future<List<ExerciseCheck>> checksFor({
+    required DateTime weekStart,
+    required int weekday,
+    required int routineId,
+  }) {
+    return (_database.select(_database.exerciseChecks)..where(
+          (row) =>
+              row.weekStart.equals(weekStart) &
+              row.weekday.equals(weekday) &
+              row.routineId.equals(routineId),
+        ))
+        .get();
+  }
+
+  Future<void> setExerciseChecked({
+    required DateTime weekStart,
+    required int weekday,
+    required int routineId,
+    required int exerciseId,
+    required int position,
+    required bool checked,
+  }) async {
+    if (!checked) {
+      await (_database.delete(_database.exerciseChecks)..where(
+            (row) =>
+                row.weekStart.equals(weekStart) &
+                row.weekday.equals(weekday) &
+                row.routineId.equals(routineId) &
+                row.exerciseId.equals(exerciseId) &
+                row.position.equals(position),
+          ))
+          .go();
+      return;
+    }
+    await _database
+        .into(_database.exerciseChecks)
+        .insert(
+          ExerciseChecksCompanion.insert(
+            weekStart: weekStart,
+            weekday: weekday,
+            routineId: routineId,
+            exerciseId: exerciseId,
+            position: position,
+          ),
+          mode: InsertMode.insertOrIgnore,
+        );
+  }
 }

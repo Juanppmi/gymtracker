@@ -12,6 +12,7 @@ part 'app_database.g.dart';
     WeekdayAssignments,
     WorkoutSessions,
     WorkoutExercises,
+    ExerciseChecks,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -19,5 +20,14 @@ class AppDatabase extends _$AppDatabase {
     : super(executor ?? driftDatabase(name: 'gym_tracker'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (migrator, from, to) async {
+      if (from < 2) {
+        await migrator.createTable(exerciseChecks);
+      }
+    },
+  );
 }
