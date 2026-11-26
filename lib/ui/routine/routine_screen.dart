@@ -5,6 +5,7 @@ import 'package:gymtracker/data/weekday.dart';
 import 'package:gymtracker/data/weekday_assignment_item.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
 import 'package:gymtracker/ui/design_system/app_button.dart';
+import 'package:gymtracker/ui/routine/routine_editor_screen.dart';
 import 'package:gymtracker/ui/routine/routine_list_screen.dart';
 import 'package:gymtracker/ui/routine/weekday_assignment_notifier.dart';
 import 'package:gymtracker/ui/routine/weekday_label.dart';
@@ -27,9 +28,12 @@ class RoutineScreen extends ConsumerWidget {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              AppButton(
-                label: l10n.routineList,
-                onPressed: () => _openRoutineList(context, ref),
+              Align(
+                alignment: Alignment.centerRight,
+                child: AppButton(
+                  label: l10n.routineList,
+                  onPressed: () => _openRoutineList(context, ref),
+                ),
               ),
               const SizedBox(height: 24),
               for (final weekday in weekdaysMondayFirst) ...[
@@ -68,39 +72,51 @@ class _WeekdaySection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final rows = assignments.isEmpty
+        ? [
+            _RoutineControls(
+              addKey: Key('assign-$weekday'),
+              onAdd: () => _assign(context, ref),
+              removeTooltip: l10n.remove,
+              addTooltip: l10n.assignRoutine,
+            ),
+          ]
+        : [
+            for (var index = 0; index < assignments.length; index++)
+              _RoutineControls(
+                key: Key('assignment-${assignments[index].id}'),
+                name: assignments[index].routineName,
+                removeKey: Key('remove-assignment-${assignments[index].id}'),
+                addKey: index == 0 ? Key('assign-$weekday') : null,
+                onRemove: () {
+                  ref
+                      .read(weekdayAssignmentsProvider.notifier)
+                      .remove(assignments[index].id);
+                },
+                onAdd: () => _assign(context, ref),
+                onOpen: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => RoutineEditorScreen(
+                        routineId: assignments[index].routineId,
+                        routineName: assignments[index].routineName,
+                      ),
+                    ),
+                  );
+                },
+                removeTooltip: l10n.remove,
+                addTooltip: l10n.assignRoutine,
+              ),
+          ];
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            weekdayLabel(l10n, weekday),
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+        Text(
+          weekdayLabel(l10n, weekday),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
-        for (final assignment in assignments)
-          ListTile(
-            key: Key('assignment-${assignment.id}'),
-            contentPadding: EdgeInsets.zero,
-            title: Text(
-              assignment.routineName,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            trailing: TextButton(
-              key: Key('remove-assignment-${assignment.id}'),
-              onPressed: () {
-                ref
-                    .read(weekdayAssignmentsProvider.notifier)
-                    .remove(assignment.id);
-              },
-              child: Text(l10n.remove),
-            ),
-          ),
-        AppButton(
-          key: Key('assign-$weekday'),
-          label: l10n.assignRoutine,
-          onPressed: () => _assign(context, ref),
-        ),
+        ...rows,
       ],
     );
   }
@@ -122,6 +138,63 @@ class _WeekdaySection extends ConsumerWidget {
     await ref
         .read(weekdayAssignmentsProvider.notifier)
         .assign(weekday, routineId);
+  }
+}
+
+class _RoutineControls extends StatelessWidget {
+  const _RoutineControls({
+    super.key,
+    this.name,
+    this.removeKey,
+    this.addKey,
+    this.onRemove,
+    required this.onAdd,
+    this.onOpen,
+    required this.removeTooltip,
+    required this.addTooltip,
+  });
+
+  final String? name;
+  final Key? removeKey;
+  final Key? addKey;
+  final VoidCallback? onRemove;
+  final VoidCallback onAdd;
+  final VoidCallback? onOpen;
+  final String removeTooltip;
+  final String addTooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        IconButton(
+          key: removeKey,
+          tooltip: removeTooltip,
+          visualDensity: VisualDensity.compact,
+          onPressed: onRemove,
+          icon: const Icon(Icons.remove),
+        ),
+        IconButton(
+          key: addKey,
+          tooltip: addTooltip,
+          visualDensity: VisualDensity.compact,
+          onPressed: onAdd,
+          icon: const Icon(Icons.add),
+        ),
+        if (name != null)
+          FilledButton(
+            style: FilledButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              minimumSize: Size.zero,
+            ),
+            onPressed: onOpen,
+            child: Text(name!),
+          ),
+      ],
+    );
   }
 }
 
