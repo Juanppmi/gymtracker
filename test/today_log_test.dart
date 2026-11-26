@@ -159,6 +159,11 @@ void main() {
 
     expect(find.text('Push day'), findsOneWidget);
     expect(find.text('Legs'), findsNothing);
+    expect(tester.getSize(find.byKey(const Key('open-today-1'))).height, 80);
+    expect(
+      tester.getSize(find.byKey(const Key('open-today-1'))).width,
+      closeTo(294.4, 1),
+    );
     expect(_circle(tester, DateTime.tuesday).filled, isFalse);
 
     await tester.tap(find.byKey(Key('day-${DateTime.wednesday}')));
@@ -172,11 +177,18 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('log-weight-0')), findsNothing);
+    expect(find.byKey(const Key('log-execution-0')), findsNothing);
+    expect(
+      tester.getCenter(find.byKey(const Key('check-0'))).dx,
+      greaterThan(tester.getCenter(find.text('Bench press')).dx),
+    );
     await _showNumbers(tester);
+    expect(find.byKey(const Key('log-execution-0')), findsOneWidget);
     expect(await _fieldText(tester, 'log-weight-0'), '0');
     await tester.tap(find.text('Bench press'));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('log-weight-0')), findsNothing);
+    expect(find.byKey(const Key('log-execution-0')), findsNothing);
     await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-sets-0'), '3');
     expect(await _fieldText(tester, 'log-reps-0'), '10');
@@ -324,7 +336,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text("Today's routine"), findsOneWidget);
+    expect(find.text("Today's routine"), findsNothing);
     expect(find.text('Start'), findsOneWidget);
     expect(_circle(tester, DateTime.tuesday).large, isTrue);
     expect(_circle(tester, DateTime.monday).large, isFalse);

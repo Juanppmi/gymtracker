@@ -4,7 +4,6 @@ import 'package:gymtracker/data/weekday.dart';
 import 'package:gymtracker/data/week_snapshot.dart';
 import 'package:gymtracker/data/weekday_assignment_item.dart';
 import 'package:gymtracker/l10n/app_localizations.dart';
-import 'package:gymtracker/ui/design_system/app_button.dart';
 import 'package:gymtracker/ui/design_system/weekday_circle.dart';
 import 'package:gymtracker/ui/routine/weekday_label.dart';
 import 'package:gymtracker/ui/today/today_log_notifier.dart';
@@ -71,17 +70,6 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  selected == today
-                      ? l10n.todaysRoutine
-                      : weekdayLabel(l10n, selected),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge
-                      ?.copyWith(fontSize: 26),
-                ),
-              ),
               const SizedBox(height: 8),
               Expanded(
                 child: ListView(
@@ -124,28 +112,39 @@ class _TodayRoutineTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             routine.routineName,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleLarge
+                ?.copyWith(fontSize: 26),
           ),
           const SizedBox(height: 8),
-          Align(
-            child: AppButton(
-              key: Key('open-today-${routine.routineId}'),
-              label: _label(l10n),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (context) => WorkoutLogScreen(
-                      weekday: weekday,
-                      routineId: routine.routineId,
-                      routineName: routine.routineName,
-                    ),
+          Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.8,
+              child: SizedBox(
+                height: 80,
+                child: FilledButton(
+                  key: Key('open-today-${routine.routineId}'),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(80),
                   ),
-                );
-              },
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => WorkoutLogScreen(
+                          weekday: weekday,
+                          routineId: routine.routineId,
+                          routineName: routine.routineName,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(_label(l10n)),
+                ),
+              ),
             ),
           ),
         ],
