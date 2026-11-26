@@ -107,10 +107,7 @@ void main() {
       const MaterialApp(
         home: Scaffold(
           body: Column(
-            children: [
-              WeekdayCircle(filled: false),
-              WeekdayCircle(filled: true),
-            ],
+            children: [WeekdayCircle(progress: 0), WeekdayCircle(progress: 1)],
           ),
         ),
       ),
