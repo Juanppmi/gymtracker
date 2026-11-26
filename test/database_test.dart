@@ -16,7 +16,7 @@ void main() {
     await repository.ensureSeeded();
     final second = await repository.listExercises();
 
-    expect(first, hasLength(126));
+    expect(first, hasLength(136));
     expect(second.map((exercise) => exercise.id), first.map((exercise) => exercise.id));
     expect(first.map((exercise) => exercise.muscleGroup).toSet(), muscleGroups.toSet());
     expect(
@@ -41,13 +41,13 @@ void main() {
     await repository.ensureSeeded();
     final exercises = await repository.listExercises();
 
-    expect(exercises, hasLength(126));
+    expect(exercises, hasLength(136));
     expect(exercises.where((exercise) => exercise.id == 1), hasLength(1));
     expect(
       exercises.firstWhere((exercise) => exercise.id == 1).nameEn,
       'Bench press',
     );
-    expect(exercises.map((exercise) => exercise.id).toSet(), hasLength(126));
+    expect(exercises.map((exercise) => exercise.id).toSet(), hasLength(136));
 
     await database.close();
   });

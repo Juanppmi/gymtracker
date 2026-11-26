@@ -510,6 +510,46 @@ const exerciseExecutions = <int, ExerciseExecutionText>{
     en: 'Hold the dumbbells at your sides and raise them out to shoulder height with a soft bend in the elbows.',
     pt: 'Segure os halteres ao lado do corpo e eleve-os até a altura dos ombros, com os cotovelos levemente flexionados.',
   ),
+  127: ExerciseExecutionText(
+    en: 'Sit at the neutral-grip row, pull the handles to your stomach, squeeze the shoulder blades, and return with control.',
+    pt: 'Sente na remada neutra, puxe as manoplas até o abdômen, junte as escápulas e volte com controle.',
+  ),
+  128: ExerciseExecutionText(
+    en: 'Lie with the chest on the pad, pull the T-bar handles toward the lower chest, and lower them with control.',
+    pt: 'Apoie o peito no banco, puxe as manoplas do cavalinho até a parte baixa do peito e desça com controle.',
+  ),
+  129: ExerciseExecutionText(
+    en: 'Sit at the plate-loaded pulldown, pull the handles to the upper chest, and let them rise slowly.',
+    pt: 'Sente na puxada com anilhas, puxe as manoplas até a parte alta do peito e deixe subir devagar.',
+  ),
+  130: ExerciseExecutionText(
+    en: 'Sit at the plate-loaded row, pull the handles to the stomach, and return with control.',
+    pt: 'Sente na remada com anilhas, puxe as manoplas até o abdômen e volte com controle.',
+  ),
+  131: ExerciseExecutionText(
+    en: 'Hold a dumbbell in each hand at the sides, shrug the shoulders up, pause, and lower them.',
+    pt: 'Segure um haltere em cada mão ao lado do corpo, eleve os ombros, pause e desça.',
+  ),
+  132: ExerciseExecutionText(
+    en: 'Brace on the 45 degree back extension, lower the torso by bending at the hips, and raise it until the body is in line.',
+    pt: 'Apoie o corpo na extensão 45 graus, desça o tronco flexionando o quadril e suba até alinhar o corpo.',
+  ),
+  133: ExerciseExecutionText(
+    en: 'Sit against the back extension pad, straighten the torso against the resistance, and return with control.',
+    pt: 'Sente na extensão lombar, empurre o encosto estendendo o tronco e volte com controle.',
+  ),
+  134: ExerciseExecutionText(
+    en: 'Sit in the plate-loaded hip thrust, drive the hips up until they are level with the shoulders, and lower with control.',
+    pt: 'Sente no hip thrust com anilhas, eleve o quadril até a linha dos ombros e desça com controle.',
+  ),
+  135: ExerciseExecutionText(
+    en: 'Sit in the unilateral leg curl, curl one leg down toward the seat, and let it rise with control.',
+    pt: 'Sente na cadeira flexora unilateral, flexione uma perna para baixo e deixe subir com controle.',
+  ),
+  136: ExerciseExecutionText(
+    en: 'Sit in the lower-ab machine, curl the pelvis up by drawing the knees toward the chest, and return with control.',
+    pt: 'Sente no abdominal infra, enrole o quadril levando os joelhos ao peito e volte com controle.',
+  ),
 };
 
 String executionDescription({
