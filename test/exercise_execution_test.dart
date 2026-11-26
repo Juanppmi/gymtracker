@@ -13,7 +13,7 @@ void main() {
   test('every exercise has a description in both languages', () {
     expect(
       exerciseExecutions.keys,
-      List<int>.generate(126, (index) => index + 1),
+      List<int>.generate(136, (index) => index + 1),
     );
     for (final text in exerciseExecutions.values) {
       expect(text.en.trim(), isNotEmpty);

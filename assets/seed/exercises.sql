@@ -124,3 +124,13 @@ INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (123
 INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (124, 'Machine squat press', 'Agachamento prensa', 'legs');
 INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (125, 'Machine 45 degree calf raise', 'Panturrilha 45 graus', 'legs');
 INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (126, 'Dumbbell lateral raise', 'Elevação lateral com halteres', 'shoulders');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (127, 'Machine neutral row', 'Remada neutra na máquina', 'back');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (128, 'Machine chest-supported T-bar row', 'Remada cavalinho com peito apoiado', 'back');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (129, 'Machine plate-loaded pulldown', 'Puxada frontal com anilhas', 'back');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (130, 'Machine plate-loaded row', 'Remada com anilhas', 'back');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (131, 'Dumbbell shrug', 'Encolhimento com halteres', 'shoulders');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (132, 'Machine 45 degree back extension', 'Extensão lombar 45 graus', 'back');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (133, 'Machine back extension', 'Extensão lombar na máquina', 'back');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (134, 'Machine plate-loaded hip thrust', 'Elevação pélvica com anilhas', 'glutes');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (135, 'Machine unilateral seated leg curl', 'Cadeira flexora unilateral', 'legs');
+INSERT OR IGNORE INTO exercises (id, name_en, name_pt, muscle_group) VALUES (136, 'Machine lower abdominal', 'Abdominal infra na máquina', 'abs');
