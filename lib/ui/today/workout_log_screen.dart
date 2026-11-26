@@ -121,36 +121,54 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Checkbox(
-                key: Key('check-${item.position}'),
-                value: _isChecked(item),
-                onChanged: (value) => _toggle(item, value ?? false),
-              ),
               Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (_open.contains(item.position)) {
-                        _open.remove(item.position);
-                      } else {
-                        _open.add(item.position);
-                      }
-                    });
-                  },
-                  child: ExerciseRow(
-                    name: localizedExerciseName(
-                      languageCode: languageCode,
-                      nameEn: item.nameEn,
-                      namePt: item.namePt,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (_open.contains(item.position)) {
+                          _open.remove(item.position);
+                        } else {
+                          _open.add(item.position);
+                        }
+                      });
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: ExerciseRow(
+                          name: localizedExerciseName(
+                            languageCode: languageCode,
+                            nameEn: item.nameEn,
+                            namePt: item.namePt,
+                          ),
+                          nameEn: item.nameEn,
+                          muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
+                          weight: item.weightLabel,
+                          sets: item.sets.toString(),
+                          reps: item.reps.toString(),
+                        ),
+                      ),
                     ),
-                    nameEn: item.nameEn,
-                    muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
-                    weight: item.weightLabel,
-                    sets: item.sets.toString(),
-                    reps: item.reps.toString(),
                   ),
+                ),
+              ),
+              Transform.scale(
+                scale: 1.35,
+                child: Checkbox(
+                  key: Key('check-${item.position}'),
+                  value: _isChecked(item),
+                  onChanged: (value) => _toggle(item, value ?? false),
                 ),
               ),
             ],
@@ -162,61 +180,67 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
             child: _open.contains(item.position)
                 ? Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(
-                          child: AppTextField(
-                            key: Key('log-weight-${item.position}'),
-                            label: l10n.weight,
-                            controller: _weights[item.position],
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: AppTextField(
+                                key: Key('log-weight-${item.position}'),
+                                label: l10n.weight,
+                                controller: _weights[item.position],
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                              ),
                             ),
-                          ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: AppTextField(
+                                key: Key('log-sets-${item.position}'),
+                                label: l10n.sets,
+                                controller: _sets[item.position],
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: AppTextField(
+                                key: Key('log-reps-${item.position}'),
+                                label: l10n.reps,
+                                controller: _reps[item.position],
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: AppTextField(
-                            key: Key('log-sets-${item.position}'),
-                            label: l10n.sets,
-                            controller: _sets[item.position],
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: AppTextField(
-                            key: Key('log-reps-${item.position}'),
-                            label: l10n.reps,
-                            controller: _reps[item.position],
-                            keyboardType: TextInputType.number,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
+                            key: Key('log-execution-${item.position}'),
+                            onPressed: () {
+                              showExerciseExecution(
+                                context,
+                                title: localizedExerciseName(
+                                  languageCode: languageCode,
+                                  nameEn: item.nameEn,
+                                  namePt: item.namePt,
+                                ),
+                                description: executionDescription(
+                                  exerciseId: item.exerciseId,
+                                  languageCode: languageCode,
+                                ),
+                              );
+                            },
+                            child: Text(l10n.execution),
                           ),
                         ),
                       ],
                     ),
                   )
                 : const SizedBox(width: double.infinity, height: 0),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              key: Key('log-execution-${item.position}'),
-              onPressed: () {
-                showExerciseExecution(
-                  context,
-                  title: localizedExerciseName(
-                    languageCode: languageCode,
-                    nameEn: item.nameEn,
-                    namePt: item.namePt,
-                  ),
-                  description: executionDescription(
-                    exerciseId: item.exerciseId,
-                    languageCode: languageCode,
-                  ),
-                );
-              },
-              child: Text(l10n.execution),
-            ),
           ),
         ],
       ),
