@@ -142,6 +142,10 @@ void main() {
     expect(find.text('Bench press'), findsOneWidget);
     expect(find.text('Chest'), findsOneWidget);
     expect(find.text('20 kg · 3 · 10'), findsOneWidget);
+    expect(
+      tester.getSize(find.byKey(const Key('exercise-image-Bench press'))),
+      const Size(96, 96),
+    );
   });
 
   testWidgets('confirmation returns false until the user confirms', (

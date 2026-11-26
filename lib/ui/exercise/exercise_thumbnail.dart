@@ -26,8 +26,8 @@ class _ExerciseThumbnailState extends State<ExerciseThumbnail> {
         border: Border.all(color: appPurple),
       ),
       child: SizedBox(
-        width: 64,
-        height: 64,
+        width: 96,
+        height: 96,
         child: FutureBuilder<Uint8List?>(
           future: _bytes,
           builder: (context, snapshot) {
