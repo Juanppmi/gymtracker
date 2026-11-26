@@ -35,6 +35,7 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
   final Map<int, TextEditingController> _sets = {};
   final Map<int, TextEditingController> _reps = {};
   final Set<(int, int)> _checked = {};
+  final Set<int> _open = {};
   var _controllersReady = false;
   var _checksReady = false;
   var _logged = false;
@@ -128,53 +129,73 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
                 onChanged: (value) => _toggle(item, value ?? false),
               ),
               Expanded(
-                child: ExerciseRow(
-                  name: localizedExerciseName(
-                    languageCode: languageCode,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (_open.contains(item.position)) {
+                        _open.remove(item.position);
+                      } else {
+                        _open.add(item.position);
+                      }
+                    });
+                  },
+                  child: ExerciseRow(
+                    name: localizedExerciseName(
+                      languageCode: languageCode,
+                      nameEn: item.nameEn,
+                      namePt: item.namePt,
+                    ),
                     nameEn: item.nameEn,
-                    namePt: item.namePt,
+                    muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
+                    weight: item.weightLabel,
+                    sets: item.sets.toString(),
+                    reps: item.reps.toString(),
                   ),
-                  nameEn: item.nameEn,
-                  muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
-                  weight: item.weightLabel,
-                  sets: item.sets.toString(),
-                  reps: item.reps.toString(),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: AppTextField(
-                  key: Key('log-weight-${item.position}'),
-                  label: l10n.weight,
-                  controller: _weights[item.position],
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: AppTextField(
-                  key: Key('log-sets-${item.position}'),
-                  label: l10n.sets,
-                  controller: _sets[item.position],
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: AppTextField(
-                  key: Key('log-reps-${item.position}'),
-                  label: l10n.reps,
-                  controller: _reps[item.position],
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-            ],
+          AnimatedSize(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            alignment: Alignment.topCenter,
+            child: _open.contains(item.position)
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: AppTextField(
+                            key: Key('log-weight-${item.position}'),
+                            label: l10n.weight,
+                            controller: _weights[item.position],
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: AppTextField(
+                            key: Key('log-sets-${item.position}'),
+                            label: l10n.sets,
+                            controller: _sets[item.position],
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: AppTextField(
+                            key: Key('log-reps-${item.position}'),
+                            label: l10n.reps,
+                            controller: _reps[item.position],
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : const SizedBox(width: double.infinity, height: 0),
           ),
           Align(
             alignment: Alignment.centerLeft,
