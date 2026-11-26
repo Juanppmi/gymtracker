@@ -154,7 +154,13 @@ void main() {
     await tester.tap(find.text('Push day'));
     await tester.pumpAndSettle();
 
+    expect(find.byKey(const Key('log-weight-0')), findsNothing);
+    await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-weight-0'), '0');
+    await tester.tap(find.text('Bench press'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('log-weight-0')), findsNothing);
+    await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-sets-0'), '3');
     expect(await _fieldText(tester, 'log-reps-0'), '10');
     await _enterField(tester, 'log-weight-0', '20');
@@ -168,6 +174,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Push day'));
     await tester.pumpAndSettle();
+    await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-weight-0'), '20');
     await tester.pageBack();
     await tester.pumpAndSettle();
@@ -176,6 +183,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Push day'));
     await tester.pumpAndSettle();
+    await _showNumbers(tester);
     expect(await _fieldText(tester, 'log-weight-0'), '20');
     await _enterField(tester, 'log-weight-0', '25');
     await tester.tap(find.text('Finish'));
@@ -336,6 +344,11 @@ WeekdayCircle _circle(WidgetTester tester, int weekday) {
       matching: find.byType(WeekdayCircle),
     ),
   );
+}
+
+Future<void> _showNumbers(WidgetTester tester) async {
+  await tester.tap(find.text('Bench press'));
+  await tester.pumpAndSettle();
 }
 
 Future<void> _enterField(WidgetTester tester, String key, String value) async {
