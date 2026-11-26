@@ -34,7 +34,18 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
   final Map<int, TextEditingController> _weights = {};
   final Map<int, TextEditingController> _sets = {};
   final Map<int, TextEditingController> _reps = {};
+  final Set<(int, int)> _checked = {};
   var _controllersReady = false;
+  var _checksReady = false;
+  var _logged = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadChecks();
+    });
+  }
 
   @override
   void dispose() {
@@ -62,6 +73,9 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(child: Text('$error')),
         data: (items) {
+          if (!_checksReady) {
+            return const Center(child: CircularProgressIndicator());
+          }
           _ensureControllers(items);
           return Column(
             children: [
@@ -105,17 +119,29 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ExerciseRow(
-            name: localizedExerciseName(
-              languageCode: languageCode,
-              nameEn: item.nameEn,
-              namePt: item.namePt,
-            ),
-            nameEn: item.nameEn,
-            muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
-            weight: item.weightLabel,
-            sets: item.sets.toString(),
-            reps: item.reps.toString(),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Checkbox(
+                key: Key('check-${item.position}'),
+                value: _isChecked(item),
+                onChanged: (value) => _toggle(item, value ?? false),
+              ),
+              Expanded(
+                child: ExerciseRow(
+                  name: localizedExerciseName(
+                    languageCode: languageCode,
+                    nameEn: item.nameEn,
+                    namePt: item.namePt,
+                  ),
+                  nameEn: item.nameEn,
+                  muscleGroup: muscleGroupLabel(l10n, item.muscleGroup),
+                  weight: item.weightLabel,
+                  sets: item.sets.toString(),
+                  reps: item.reps.toString(),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           Row(
@@ -176,7 +202,92 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
     );
   }
 
-  Future<void> _finish(List<WorkoutDraft> items) async {
+  Future<void> _loadChecks() async {
+    final repository = ref.read(gymRepositoryProvider);
+    final weekStart = weekStartOf(ref.read(clockProvider));
+    final checks = await repository.checksFor(
+      weekStart: weekStart,
+      weekday: widget.weekday,
+      routineId: widget.routineId,
+    );
+    final logged = await repository.hasWorkout(
+      weekStart: weekStart,
+      weekday: widget.weekday,
+      routineId: widget.routineId,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _checked
+        ..clear()
+        ..addAll(checks.map((check) => (check.exerciseId, check.position)));
+      _logged = logged;
+      _checksReady = true;
+    });
+  }
+
+  bool _isChecked(WorkoutDraft item) {
+    if (_logged && _checked.isEmpty) {
+      return true;
+    }
+    return _checked.contains((item.exerciseId, item.position));
+  }
+
+  Future<void> _toggle(WorkoutDraft item, bool checked) async {
+    final draft = ref.read(workoutDraftProvider(widget.routineId)).value;
+    if (draft == null) {
+      return;
+    }
+    if (_logged && _checked.isEmpty) {
+      _checked.addAll(draft.map((entry) => (entry.exerciseId, entry.position)));
+      for (final entry in draft) {
+        await _storeCheck(entry, true);
+      }
+    }
+    if (checked) {
+      _checked.add((item.exerciseId, item.position));
+    } else {
+      _checked.remove((item.exerciseId, item.position));
+    }
+    await _storeCheck(item, checked);
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+
+    final complete =
+        draft.isNotEmpty && draft.every((entry) => _isChecked(entry));
+    if (complete) {
+      await _finish(draft, pop: false);
+      return;
+    }
+    if (!checked) {
+      await ref
+          .read(gymRepositoryProvider)
+          .deleteWorkout(
+            weekStart: weekStartOf(ref.read(clockProvider)),
+            weekday: widget.weekday,
+            routineId: widget.routineId,
+          );
+      _logged = false;
+      ref.invalidate(todayLogProvider);
+    }
+  }
+
+  Future<void> _storeCheck(WorkoutDraft item, bool checked) {
+    final repository = ref.read(gymRepositoryProvider);
+    return repository.setExerciseChecked(
+      weekStart: weekStartOf(ref.read(clockProvider)),
+      weekday: widget.weekday,
+      routineId: widget.routineId,
+      exerciseId: item.exerciseId,
+      position: item.position,
+      checked: checked,
+    );
+  }
+
+  Future<void> _finish(List<WorkoutDraft> items, {bool pop = true}) async {
     final exercises = <PerformedExercise>[];
     for (final item in items) {
       final weight = double.tryParse(
@@ -197,6 +308,13 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
         ),
       );
     }
+    for (final item in items) {
+      await _storeCheck(item, true);
+    }
+    _checked
+      ..clear()
+      ..addAll(items.map((item) => (item.exerciseId, item.position)));
+    _logged = true;
 
     final performedOn = ref.read(clockProvider);
     await ref
@@ -209,7 +327,7 @@ class _WorkoutLogScreenState extends ConsumerState<WorkoutLogScreen> {
           exercises: exercises,
         );
     ref.invalidate(todayLogProvider);
-    if (mounted) {
+    if (pop && mounted) {
       Navigator.of(context).pop();
     }
   }

@@ -69,3 +69,21 @@ class WorkoutExercises extends Table {
   IntColumn get sets => integer()();
   IntColumn get reps => integer()();
 }
+
+class ExerciseChecks extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get weekStart => dateTime()();
+  IntColumn get weekday => integer()();
+  IntColumn get routineId => integer().references(
+    Routines,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
+  IntColumn get exerciseId => integer().references(Exercises, #id)();
+  IntColumn get position => integer()();
+
+  @override
+  List<Set<Column<Object>>> get uniqueKeys => [
+    {weekStart, weekday, routineId, exerciseId, position},
+  ];
+}
